@@ -1,0 +1,395 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+}
+
+/* ===========================
+   PAGE
+=========================== */
+
+.login-page{
+    width:100%;
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+.background-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.15);
+}
+
+
+
+
+@keyframes float{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-18px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+/* ===========================
+   LOGIN CARD
+=========================== */
+
+.login-card{
+
+    width:100%;
+    max-width:480px;
+
+    padding:40px;
+
+    position:relative;
+    z-index:5;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,.25);
+
+    backdrop-filter:blur(100px) saturate(250%);
+    -webkit-backdrop-filter:blur(40px);
+
+    border:1px solid rgba(255,255,255,.4);
+
+    box-shadow:
+        0 32px 80px rgba(0,0,0,.3),
+        0 16px 64px rgba(255,255,255,.2),
+        inset 0 3px 0 rgba(255,255,255,.6),
+        inset 0 -1px 0 rgba(255,255,255,.3);
+
+    transition:.35s ease;
+}
+
+.login-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.login-card h1{
+
+    font-size:34px;
+
+    text-align:center;
+
+    color:#374151;
+
+    margin-bottom:8px;
+
+}
+
+.subtitle{
+
+    text-align:center;
+
+    color:#555;
+
+    margin-bottom:30px;
+
+}
+
+/* ===========================
+   FORM
+=========================== */
+
+form{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.form-group label{
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+    color:#374151;
+
+}
+
+.form-group input{
+
+    padding:15px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.45);
+
+    background:rgba(255,255,255,.10);
+
+    color:#374151;
+
+    font-size:16px;
+
+    transition:.25s;
+
+    outline:none;
+
+}
+
+.form-group input::placeholder{
+
+    color:#666;
+
+}
+
+.form-group input:focus{
+
+    border-color:#3b82f6;
+
+    box-shadow:0 0 0 3px rgba(59,130,246,.25);
+
+    background:rgba(255,255,255,.18);
+
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.login-button{
+
+    margin-top:8px;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:rgb(56, 133, 192);
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.login-button:hover{
+
+    transform:translateY(-2px);
+
+    filter:brightness(110%);
+
+}
+
+.login-button:disabled{
+
+    opacity:.7;
+
+    cursor:not-allowed;
+
+}
+
+/* ===========================
+   DIVIDER
+=========================== */
+
+.divider{
+
+    margin:28px 0 18px;
+
+    text-align:center;
+
+    color:#555;
+
+    font-size:13px;
+
+    text-transform:uppercase;
+
+}
+
+/* ===========================
+   SOCIAL BUTTONS
+=========================== */
+
+.social-button{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    padding:14px;
+
+    margin-bottom:14px;
+
+    cursor:pointer;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.35);
+
+    background:rgba(255,255,255,.15);
+
+    backdrop-filter:blur(18px);
+
+    color:#374151;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+.social-button:hover{
+
+    transform:translateY(-2px);
+
+    background:rgba(255,255,255,.25);
+
+}
+
+.social-button svg{
+
+    flex-shrink:0;
+
+}
+
+/* ===========================
+   FORGOT PASSWORD
+=========================== */
+
+.forgot-password{
+
+    text-align:center;
+
+    margin-top:20px;
+
+}
+
+.forgot-password a{
+
+    color:#555;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+}
+
+.forgot-password a:hover{
+
+    color:#000;
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:600px){
+
+.login-card{
+
+    width:92%;
+
+    padding:30px;
+
+}
+
+.login-card h1{
+
+    font-size:28px;
+
+}
+
+}
+
+.gradient-bg {
+    position: relative;
+    min-height: 100vh;
+
+    background-image: url("https://students.1fbusa.com/hubfs/25%20Ways%20to%20Volunteer%20in%20Your%20Community.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    overflow: hidden;
+}
+
+/* GLOBAL BLUR LAYER */
+.gradient-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    background: rgba(255, 255, 255, 0.08);
+
+    pointer-events: none;
+}
+
+.gradient-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    /* darker + more blur in center area */
+    background: radial-gradient(
+        circle at center,
+        rgba(255,255,255,0.15) 0%,
+        rgba(255,255,255,0.10) 25%,
+        rgba(255,255,255,0.05) 45%,
+        rgba(255,255,255,0) 70%
+    );
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
