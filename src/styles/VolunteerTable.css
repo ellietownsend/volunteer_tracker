@@ -1,0 +1,90 @@
+.card {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  font-family: Inter, system-ui, sans-serif;
+}
+
+/* HEADER */
+.card-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  background: linear-gradient(90deg, #f9fafb, #ffffff);
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6b7280;
+  margin-left: 6px;
+}
+
+/* TABLE WRAPPER */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+/* TABLE */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* HEADER ROW */
+.table thead {
+  background: #fafafa;
+}
+
+.table th {
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6b7280;
+  padding: 12px 18px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+/* ROWS */
+.table td {
+  padding: 14px 18px;
+  font-size: 14px;
+  color: #111827;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* HOVER EFFECT (soft purple tint like Vercel dashboards) */
+.table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(168, 85, 247, 0.06),
+    rgba(236, 72, 153, 0.04)
+  );
+}
+
+/* LAST ROW CLEANUP */
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* EMPTY STATE */
+.empty {
+  padding: 24px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
