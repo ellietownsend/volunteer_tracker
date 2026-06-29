@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "./src/components/LoginPage";
 import VolunteerList from "./src/components/VolunteerList";
+import VolunteerHoursChart from "./src/components/VolunteerHoursChart";
 
 const routes = [
     {
@@ -9,7 +10,7 @@ const routes = [
     },
     {
         path: ("/dashboard"),
-        element: <VolunteerList />
+        element: <> <VolunteerList /> <VolunteerHoursChart /> </>
     }
 ]
 const router = createBrowserRouter(routes)
