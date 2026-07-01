@@ -1,0 +1,187 @@
+* {
+    box-sizing: border-box;
+}
+
+.upload-form {
+    width: 100%;
+    max-width: 500px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Upload Card */
+
+.upload-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 320px;
+
+    padding: 40px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+
+    background: white;
+
+    cursor: pointer;
+
+    transition: all .25s ease;
+}
+
+/* subtle top glow */
+
+.upload-card::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 15%;
+    width: 70%;
+    height: 1px;
+
+    background: linear-gradient(
+        to right,
+        transparent,
+        #3b82f6,
+        transparent
+    );
+
+    opacity: .4;
+}
+
+/* hover */
+
+.upload-card:hover {
+    border-color: #d1d5db;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.06),
+        0 5px 10px rgba(0,0,0,.04);
+}
+
+/* hide input */
+
+.upload-card input {
+    display: none;
+}
+
+/* icon */
+
+.upload-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 38px;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    margin-bottom: 24px;
+
+    transition: .25s;
+}
+
+.upload-card:hover .upload-icon {
+    background: #eff6ff;
+    transform: scale(1.08);
+}
+
+/* heading */
+
+.upload-card h2 {
+    margin: 0;
+
+    font-size: 22px;
+
+    font-weight: 600;
+
+    color: #111827;
+}
+
+/* text */
+
+.upload-card p {
+    margin-top: 12px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    text-align: center;
+
+    line-height: 1.6;
+}
+
+/* fake button */
+
+.upload-button {
+    margin-top: 28px;
+
+    background: #f3f4f6;
+
+    color: #111827;
+
+    padding: 12px 28px;
+
+    border-radius: 10px;
+
+    font-weight: 600;
+
+    transition: .2s;
+}
+
+.upload-card:hover .upload-button {
+    background: #e5e7eb;
+}
+
+/* submit */
+
+.submit-btn {
+    border: none;
+
+    border-radius: 10px;
+
+    background: black;
+
+    color: white;
+
+    padding: 14px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background: #222;
+}
+
+.submit-btn:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+/* error */
+
+.error {
+    color: #dc2626;
+    font-size: 14px;
+    text-align: center;
+}

@@ -6,7 +6,7 @@ import "../styles/VolunteerTable.css";
 
 function VolunteerList(){
     const [volunteers, setVolunteers] = useState([]);
-    console.log(volunteers);
+
 
     useEffect(() => {
         retrieveVolunteers();
