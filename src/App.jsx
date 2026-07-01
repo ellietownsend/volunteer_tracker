@@ -1,5 +1,6 @@
 import Login from "./components/LoginPage"
 function App(){
-    return (<Login />)
+    return (
+    <Login />)
 }
 export default App;
