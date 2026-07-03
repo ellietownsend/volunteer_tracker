@@ -1,0 +1,200 @@
+* {
+    box-sizing: border-box;
+}
+
+.shoutout-form {
+    width: 100%;
+    max-width: 600px;
+    margin: 40px auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Card */
+
+.shoutout-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 22px;
+
+    padding: 40px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+
+    background: white;
+
+    transition: all .25s ease;
+}
+
+.shoutout-card::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 15%;
+
+    width: 70%;
+    height: 1px;
+
+    background: linear-gradient(
+        to right,
+        transparent,
+        #3b82f6,
+        transparent
+    );
+
+    opacity: .4;
+}
+
+.shoutout-card:hover {
+    border-color: #d1d5db;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.06),
+        0 5px 10px rgba(0,0,0,.04);
+}
+
+/* Icon */
+
+.form-icon {
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 36px;
+
+    border-radius: 50%;
+
+    background: #f3f4f6;
+
+    margin: 0 auto;
+
+    transition: .25s;
+}
+
+.shoutout-card:hover .form-icon {
+    background: #eff6ff;
+    transform: scale(1.08);
+}
+
+/* Heading */
+
+.shoutout-card h2 {
+    margin: 0;
+
+    text-align: center;
+
+    font-size: 22px;
+    font-weight: 600;
+
+    color: #111827;
+}
+
+.shoutout-card p {
+    margin: -8px 0 8px;
+
+    text-align: center;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+/* Inputs */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #374151;
+}
+
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    background: white;
+
+    transition: .2s;
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+
+    border-color: #3b82f6;
+
+    box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+}
+
+.form-group textarea {
+    resize: vertical;
+
+    min-height: 140px;
+}
+
+/* Submit */
+
+.submit-btn {
+    border: none;
+
+    border-radius: 10px;
+
+    background: black;
+
+    color: white;
+
+    padding: 14px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background: #222;
+}
+
+.submit-btn:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+/* Error */
+
+.error {
+    color: #dc2626;
+    text-align: center;
+
+    font-size: 14px;
+}
