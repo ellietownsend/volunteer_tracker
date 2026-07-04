@@ -3,6 +3,7 @@ import Login from "./src/components/LoginPage";
 import VolunteerList from "./src/components/VolunteerList";
 import VolunteerHoursChart from "./src/components/VolunteerHoursChart";
 import ImageUploader from "./src/components/ImageUploader";
+import ShoutoutForm from "./src/components/ShoutoutForm";
 
 const routes = [
     {
@@ -11,7 +12,7 @@ const routes = [
     },
     {
         path: ("/dashboard"),
-        element: <> <VolunteerList /> <VolunteerHoursChart /> <ImageUploader /> </>
+        element: <> <VolunteerList /> <VolunteerHoursChart /> <ImageUploader /> <ShoutoutForm /> </>
     }
 ]
 const router = createBrowserRouter(routes)
