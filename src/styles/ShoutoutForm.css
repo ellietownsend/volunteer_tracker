@@ -198,3 +198,48 @@
 
     font-size: 14px;
 }
+
+.autocomplete {
+    position: relative;
+    width: 100%;
+}
+
+.autocomplete input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+      padding: 14px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    background: white;
+
+    transition: .2s;
+}
+
+.autocomplete-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+    max-height: 220px;
+    overflow-y: auto;
+
+    z-index: 1000;
+}
+
+.autocomplete-item {
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.autocomplete-item:hover {
+    background: #f5f5f5;
+}

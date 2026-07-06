@@ -1,6 +1,7 @@
 
-import { useActionState, useState,useEffect } from "react"; 
+import { useActionState, useState, useEffect, useMemo } from "react"; 
 import "../../styles/ShoutoutForm.css";
+import VolunteerAutocomplete from "./VolunteerAutocomplete";
 import {fetchVolunteers, createShoutout} from "../../services/shoutoutService";
 
 function ShoutoutForm(){
@@ -42,6 +43,8 @@ function ShoutoutForm(){
     }
 
   return (
+    <>
+
     <form className="shoutout-form" action={formAction}>
 
         <div className="shoutout-card">
@@ -56,30 +59,13 @@ function ShoutoutForm(){
                 Recognize a volunteer for their hard work and contribution. These will be inlcuded in the generated message.
             </p>
 
-            <div className="form-group">
-                <label htmlFor="volunteer-select">
-                    Choose Volunteer
-                </label>
+           <div className="form-group">
+    <label htmlFor="volunteer-search">
+        Choose Volunteer
+    </label>
 
-                <select
-                    id="volunteer-select"
-                    name="email"
-                    required
-                >
-                    {volunteers ? (
-                        volunteers.map((volunteer) => (
-                            <option
-                                key={volunteer.email}
-                                value={volunteer.email}
-                            >
-                                {volunteer.firstname} {volunteer.lastname}
-                            </option>
-                        ))
-                    ) : (
-                        <p value="">No volunteers found</p>
-                    )}
-                </select>
-            </div>
+    <VolunteerAutocomplete volunteers={volunteers} />
+</div>
 
             <div className="form-group">
                 <label htmlFor="message">
@@ -112,6 +98,7 @@ function ShoutoutForm(){
         }
 
     </form>
+    </>
 );
 }
 
