@@ -72,3 +72,26 @@
 .submit-btn {
     margin-top: 0.5rem;
 }
+
+.inactive-volunteers-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    border-top: 1px solid #e5e7eb;
+
+    max-height: 250px;   /* Adjust as needed */
+    overflow-y: auto;
+}
+
+.inactive-volunteers-list li {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid #f1f3f5;
+    color: #374151;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.inactive-volunteers-list li:last-child {
+    border-bottom: none;
+}
