@@ -34,6 +34,7 @@ function VolunteerAutocomplete({ volunteers }) {
     return (
         <div className="autocomplete">
             <input
+            id="volunteer-search"
                 type="text"
                 placeholder="Type or select volunteer"
                 value={search}

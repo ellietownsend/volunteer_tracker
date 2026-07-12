@@ -44,7 +44,6 @@ function ShoutoutForm(){
 
   return (
     <>
-
     <form className="shoutout-form" action={formAction}>
 
         <div className="shoutout-card">
