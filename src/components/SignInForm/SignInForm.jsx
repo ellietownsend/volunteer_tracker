@@ -18,7 +18,7 @@ return (
   <div className={`signin-wrapper ${className}`} {...props}>
     <div className="signin-card">
       <div className="signin-header">
-        <h2>Welcome, Girls Who Math!</h2>
+        <h2>Welcome, <br></br>Girls Who Math!</h2>
         <p>Login to your volunteer dashboard.</p>
       </div>
 
