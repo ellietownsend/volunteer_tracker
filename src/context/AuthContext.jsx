@@ -3,34 +3,61 @@ import supabase from '../../supabase-client';
 
 const AuthContext = createContext();
 
+/**
+ * AuthContextProvider Component
+ *
+ * Provides authentication state and authentication methods to all
+ * descendant components using React Context. 
+ * 
+ * 
+ * The provider initializes the current Supabase session, listens for authentication state changes,
+ * and exposes helper functions for signing in, verifying an OTP, and signing out.
+ *
+ * @component
+ * @param {React.ReactNode} props.children - Child components that will have access to the authentication context.
+ * @returns {JSX.Element} An AuthContext provider wrapping the application's children.
+ *
+ * @example
+ * // Wrap your application
+ * import { AuthContextProvider } from './context/AuthContext';
+ *
+ * function App() {
+ *   return (
+ *     <AuthContextProvider>
+ *       <HomePage />
+ *     </AuthContextProvider>
+ *   );
+ * }
+ */                                                                                                                                                           
+
 export const AuthContextProvider =  ({ children }) => {
     const [session, setSession] = useState(undefined);
 
-useEffect(() => {
-    async function getInitialSession() {
-        const { data, error } = await supabase.auth.getSession();
+    useEffect(() => {
+        async function getInitialSession() {
+            const { data: {session}, error } = await supabase.auth.getSession();
 
-        if (error) {
-            console.error(error);
-            return;
-        }
+            if (error) {
+                console.error(error);
+                return;
+            }
 
-        setSession(data.session);
+        setSession(session);
     }
 
-    getInitialSession();
+        getInitialSession();
 
-    const {
-        data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-        setSession(session);
-    });
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, newSession) => {
+            setSession(newSession);
+        });
 
-    return () => subscription.unsubscribe();
-}, []);
+        return () => subscription.unsubscribe();
+    }, []);
 
 
-    // auth functions
+   
     const signInUser = async (email) => {
         try {
             const { data, error } = await supabase.auth.signInWithOtp({
@@ -89,7 +116,7 @@ useEffect(() => {
     <AuthContext.Provider
     value={{
         session,
-        signInUser,
+        signInUser, 
         verifyOTP,
         signOut,
     }}
@@ -99,6 +126,32 @@ useEffect(() => {
   );
 };
 
+
+/**
+ * useAuth Hook
+ *
+ * Provides access to the authentication context, including the current
+ * session and authentication helper functions.
+ *
+ * @function
+ * @returns {Object} Authentication context.
+ * @returns {import('@supabase/supabase-js').Session | null | undefined} returns.session The current authenticated session (session || null || undefined)
+ * @returns {Function} returns.signInUser Sends a one-time password (OTP) login email.
+ * @returns {Function} returns.verifyOTP Verifies the OTP sent to the user's email.
+ * @returns {Function} returns.signOut Signs the current user out.
+ *
+ * @example
+ * // Sign the user out
+ * function LogoutButton() {
+ *   const { signOut } = useAuth();
+ *
+ *   return (
+ *     <button onClick={signOut}>
+ *       Sign Out
+ *     </button>
+ *   );
+ * }
+ */
 
 export const useAuth = () => {
   return useContext(AuthContext);
