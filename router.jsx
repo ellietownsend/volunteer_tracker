@@ -1,18 +1,21 @@
 import { createBrowserRouter } from "react-router-dom";
-import Login from "./src/components/LoginPage";
-import VolunteerList from "./src/components/VolunteerList";
-import VolunteerHoursChart from "./src/components/VolunteerHoursChart";
-import ImageUploader from "./src/components/ImageUploader";
-import ShoutoutForm from "./src/components/ShoutoutForm";
-
+import Dashboard from "./src/routes/Dashboard";
+import SignInForm from "./src/components/SignInForm/SignInForm";
+import RootRedirect from "./src/routes/Rootdirectory";
+import VolunteerList from "./src/components/VolunteerList"
 const routes = [
     {
-        path: ('/login'),
-        element: <Login />
+        path: ('/sign-in'),
+        element: <SignInForm />
     },
     {
+
         path: ("/dashboard"),
-        element: <> <VolunteerList /> <VolunteerHoursChart /> <ImageUploader /> <ShoutoutForm /> </>
+        element: <> 
+            <RootRedirect>
+                <Dashboard />
+            </RootRedirect>
+            </>
     }
 ]
 const router = createBrowserRouter(routes)
