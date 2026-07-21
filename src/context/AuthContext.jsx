@@ -11,7 +11,7 @@ const AuthContext = createContext();
  * 
  * 
  * The provider initializes the current Supabase session, listens for authentication state changes,
- * and exposes helper functions for signing in, verifying an OTP, and signing out.
+ * and exposes helper functions for signing in/out.
  *
  * @component
  * @param {React.ReactNode} props.children - Child components that will have access to the authentication context.
@@ -62,6 +62,10 @@ export const AuthContextProvider =  ({ children }) => {
         try {
             const { data, error } = await supabase.auth.signInWithOtp({
                 email,
+                 options: {
+                    emailRedirectTo: "http://localhost:5173/dashboard",
+                    shouldCreateUser: false,
+                }
             });
 
             if (error) {
@@ -77,28 +81,7 @@ export const AuthContextProvider =  ({ children }) => {
         }
     };
 
-    const verifyOTP = async (email, token) => {
-        try {
-            const { data, error } = await supabase.auth.verifyOtp({
-                email,
-                token,
-                type: "email",
-            });
-
-            if (error) {
-                return { success: false, error: error.message };
-            }
-
-            return { success: true, data };
-        } catch (error) {
-                return {
-            success: false,
-            error: "An unexpected error occurred.",
-            };
-        }
-    };
-
-    const signOut = async () => {
+    const signOutUser = async () => {
         try {
             const { error } = await supabase.auth.signOut();
             if (error) {
@@ -117,8 +100,7 @@ export const AuthContextProvider =  ({ children }) => {
     value={{
         session,
         signInUser, 
-        verifyOTP,
-        signOut,
+        signOutUser,
     }}
 >
       {children}
@@ -136,8 +118,7 @@ export const AuthContextProvider =  ({ children }) => {
  * @function
  * @returns {Object} Authentication context.
  * @returns {import('@supabase/supabase-js').Session | null | undefined} returns.session The current authenticated session (session || null || undefined)
- * @returns {Function} returns.signInUser Sends a one-time password (OTP) login email.
- * @returns {Function} returns.verifyOTP Verifies the OTP sent to the user's email.
+ * @returns {Function} returns.signInUser Sends a magic sign-in link to the user's email.
  * @returns {Function} returns.signOut Signs the current user out.
  *
  * @example
