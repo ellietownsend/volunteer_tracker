@@ -1,70 +1,97 @@
-import { useState } from "react";
+import { useActionState, useState} from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../../styles/SigninFrom.css";
+import { useAuth } from "../../context/AuthContext";
 
 
-function SignInForm({ className = "", ...props }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
+function SignIn() {
+  const { signInUser } = useAuth();
   const navigate = useNavigate();
+  const [linkSuccessfullySent, setlinkSuccessfullySent] = useState(false);
 
-  const handleSignIn = (e) => {
-    e.preventDefault();
-  };
-return (
-  <div className={`signin-wrapper ${className}`} {...props}>
-    <div className="signin-card">
-      <div className="signin-header">
-        <h2>Welcome, <br></br>Girls Who Math!</h2>
-        <p>Login to your volunteer dashboard.</p>
-      </div>
 
-      <div className="signin-body">
-        <form onSubmit={handleSignIn}>
-          <div className="form-container">
+  const [error, submitAction, isPending] = useActionState(
+    async (previousSignInData, newSignInData) => {
+      const email =  newSignInData.get('email');
+    
+      const {
+        success,
+        data,
+        error: signInError
+      } = await signInUser(email);
 
-            <div className="form-group">
-              <label htmlFor="email">
-                Email
-              </label>
+      if(signInError){
+        return new Error(signInError);
+      }
 
-              <input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+      setlinkSuccessfullySent(true);
+
+    },null);
+
+ return (
+  <>
+    <div className="signin-wrapper">
+      <div className="signin-card">
+        <div className="signin-header">
+          <h2>
+            Welcome, <br></br>Girls Who Math!
+          </h2>
+          <p>Login to your volunteer dashboard.</p>
+        </div>
+
+        <div className="signin-body">
+          <form action={submitAction}>
+            <div className="form-container">
+
+              <div className="form-group" aria-label="Sign in form">
+                <label htmlFor="email">
+                  Email
+                </label>
+
+                <input
+                  name="email"
+                  id="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isPending}
+              >
+                {isPending
+                  ? "Sending Sign-In Link..."
+                  : "Send sign-in link"}
+              </button>
+
+              <div>
+                {linkSuccessfullySent 
+                ? "Link Sent! Please check email."
+                : null}
+
+              </div>
+              
+
+              {error && (
+                <p className="error-message">
+                  {error.message}
+                </p>
+              )}
+
             </div>
-
-
-
-            {error && (
-              <p className="error-message">
-                {error}
-              </p>
-            )}
-
-
-            <button
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading
-                ? "Signing in..."
-                : "Sign in"}
-            </button>
-
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+  </>
 );
+
+
 }
 
-export default SignInForm
+export default SignIn
+
+
