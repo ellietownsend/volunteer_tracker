@@ -74,6 +74,7 @@ function VolunteerList(){
   
 
       function formatData(data){
+        console.log(data);
         let formatedData = data[0].charAt(0).toUpperCase() + data[0].slice(1);
         for(let i = 1; i < data.length; i++){
           formatedData += `, ${data[i].charAt(0).toUpperCase() + data[i].slice(1)}`
@@ -179,10 +180,9 @@ function VolunteerList(){
                     </span>
                 ))}
                 </div>
-
               </div>
-
             </div>
+               <button className = "edit-cards">:::</button>
 
           </div>
 
@@ -204,7 +204,7 @@ function VolunteerList(){
 
     </div>
 
-    {showNewVolunteerForm && <AddVolunteer />}
+    {showNewVolunteerForm && <AddVolunteer onClose = {() => setShowNewVolunteerForm(false)}/>}
 
   </div>
 );
