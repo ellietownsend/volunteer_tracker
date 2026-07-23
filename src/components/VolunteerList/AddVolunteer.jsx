@@ -1,6 +1,6 @@
-import { useState, useActionState } from "react";
+import { useState, useActionState, useEffect } from "react";
 
-export function AddVolunteer(){
+export function AddVolunteer({onClose}){
   const [error, submitAction, isPending] = useActionState(
       async (prevSubmission, newVolunteer) => {
         const volunteer = {
@@ -28,13 +28,28 @@ export function AddVolunteer(){
       
     ,[])
 
-    return(
-    <div className="modal-overlay">
-  <div className="modal">
 
-    <div className="modal-header">
-      <h1>Sign up a new volunteer</h1>
-    </div>
+    return(
+    
+     <div className="modal-overlay">
+        <div className="modal">
+          <div className="modal-header">
+            <div>
+                <h1>Sign up a new volunteer</h1>
+                <p>
+                    Fill out the information below to add a new volunteer to the system.
+                </p>
+            </div>
+
+            <button
+                type="button"
+                className="modal-close"
+                onClick={onClose}
+            >
+                X
+            </button>
+
+  </div>
 
     <form action={submitAction}>
 
@@ -81,7 +96,7 @@ export function AddVolunteer(){
           <input
             type="text"
             name="preferredName"
-            id="preferred"
+            id="preferredName"
           />
         </div>
 
@@ -129,19 +144,72 @@ export function AddVolunteer(){
 
       <div className="subject-group">
 
-        <label><input type="checkbox" name="subject" value="Math" />Math</label>
-        <label><input type="checkbox" name="subject" value="Computer Science" />Computer Science</label>
-        <label><input type="checkbox" name="subject" value="AMC 8" />AMC 8</label>
-        <label><input type="checkbox" name="subject" value="AMC 10" />AMC 10</label>
-        <label><input type="checkbox" name="subject" value="Java" />Java</label>
-        <label><input type="checkbox" name="subject" value="Python" />Python</label>
-        <label><input type="checkbox" name="subject" value="Algebra 1" />Algebra 1</label>
-        <label><input type="checkbox" name="subject" value="Geometry" />Geometry</label>
-        <label><input type="checkbox" name="subject" value="Algebra 2/ Pre-Calculus" />Algebra 2 / Pre-Calculus</label>
-        <label><input type="checkbox" name="subject" value="Chemistry" />Chemistry</label>
-        <label><input type="checkbox" name="subject" value="Introduction to Biology" />Introduction to Biology</label>
-        <label><input type="checkbox" name="subject" value="Physics" />Physics</label>
+      <label className="choice-card">
+    <input type="checkbox" name="subject" value="Math" />
+    <span>Math</span>
+</label>
+        <label className="choice-card">
+  <input type="checkbox" name="subject" value="Computer Science" />
+  <span>Computer Science</span>
+</label>
 
+<label className="choice-card">
+  <input type="checkbox" name="subject" value="AMC 8" />
+  <span>AMC 8</span>
+</label>
+
+<label className="choice-card">
+  <input type="checkbox" name="subject" value="AMC 10" />
+  <span>AMC 10</span>
+</label>
+
+<label className="choice-card">
+  <input type="checkbox" name="subject" value="Java" />
+  <span>Java</span>
+</label>
+
+<label className="choice-card">
+  <input type="checkbox" name="subject" value="Python" />
+  <span>Python</span>
+</label>
+
+<label className="choice-card">
+  <input type="checkbox" name="subject" value="Algebra 1" />
+  <span>Algebra 1</span>
+</label>
+
+<label className="choice-card">
+  <input type="checkbox" name="subject" value="Geometry" />
+  <span>Geometry</span>
+</label>
+
+<label className="choice-card">
+  <input
+    type="checkbox"
+    name="subject"
+    value="Algebra 2/ Pre-Calculus"
+  />
+  <span>Algebra 2 / Pre-Calculus</span>
+</label>
+
+<label className="choice-card">
+  <input type="checkbox" name="subject" value="Chemistry" />
+  <span>Chemistry</span>
+</label>
+
+<label className="choice-card">
+  <input
+    type="checkbox"
+    name="subject"
+    value="Introduction to Biology"
+  />
+  <span>Introduction to Biology</span>
+</label>
+
+<label className="choice-card">
+  <input type="checkbox" name="subject" value="Physics" />
+  <span>Physics</span>
+</label>
       </div>
 
 
@@ -149,24 +217,49 @@ export function AddVolunteer(){
         Volunteer Roles
       </h2>
 
-      <div className="role">
+      <div className="role-group">
 
-        <label><input type="checkbox" name="role" value="tutor" />Tutor</label>
-        <label><input type="checkbox" name="role" value="curriculum" />Curriculum</label>
-        <label><input type="checkbox" name="role" value="outreach" />Outreach</label>
-        <label><input type="checkbox" name="role" value="matching" />Student Matching</label>
-        <label><input type="checkbox" name="role" value="operations" />Program Operations</label>
+      <label className="choice-card">
+  <input type="checkbox" name="role" value="tutor" />
+  <span>Tutor</span>
+</label>
 
+<label className="choice-card">
+  <input type="checkbox" name="role" value="curriculum" />
+  <span>Curriculum</span>
+</label>
+
+<label className="choice-card">
+  <input type="checkbox" name="role" value="outreach" />
+  <span>Outreach</span>
+</label>
+
+<label className="choice-card">
+  <input type="checkbox" name="role" value="matching" />
+  <span>Student Matching</span>
+</label>
+
+<label className="choice-card">
+  <input type="checkbox" name="role" value="operations" />
+  <span>Program Operations</span>
+</label>
       </div>
 
-      <button type="submit">
+      <div className="modal-actions">
+    <button
+        type="submit"
+        className="submit-btn"
+    >
         Add Volunteer
-      </button>
+    </button>
+</div>
 
     </form>
 
   </div>
 </div>
+    
+  
 );
 
 }
