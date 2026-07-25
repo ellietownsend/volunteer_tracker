@@ -59,6 +59,7 @@ function SignIn() {
               </div>
 
               <button
+                className="signin-btn"
                 type="submit"
                 disabled={isPending}
               >
@@ -75,11 +76,8 @@ function SignIn() {
               </div>
               
 
-              {error && (
-                <p className="error-message">
-                  {error.message}
-                </p>
-              )}
+              {error &&  <p className="error-message">{error.message}</p>}
+
 
             </div>
           </form>
