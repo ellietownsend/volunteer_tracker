@@ -1,16 +1,20 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import Dashboard from "./src/routes/Dashboard";
 import SignInForm from "./src/components/SignInForm/SignInForm";
 import RootRedirect from "./src/routes/Rootdirectory";
 const routes = [
     {
-        path: ('/sign-in'),
+        path: '/sign-in',
         element: <SignInForm />
     },
     {
+        path: '/',
+        element: <Navigate to="/sign-in" />
+    },
+    {
 
-        path: ("/dashboard"),
+        path: "/dashboard",
         element: <> 
             <RootRedirect>
                 <Dashboard />
