@@ -1,15 +1,17 @@
 
 import {useState, useEffect, useActionState} from "react";
 import "../../styles/VolunteerTable.css";
-import { retrieveVolunteers, addVolunteer } from "../../services/volunteerList";
+import { retrieveVolunteers, addVolunteer, retrieveVolunteer } from "../../services/volunteerList";
 import { AddVolunteer } from "./AddVolunteer";
 import { filter } from "framer-motion/client";
+import EditVolunteerInfo from "./EditVolunteerInfo";
 
 
 
 function VolunteerList(){
     const [volunteers, setVolunteers] = useState([]);
     const [showNewVolunteerForm, setShowNewVolunteerForm] = useState(false);
+    const [showEditVolunteerFrom, setShowEditVolunteerFrom] = useState(false);
 
 
     useEffect(() => {
@@ -41,10 +43,7 @@ function VolunteerList(){
       const normalizedSearch = search.toLowerCase();
       const filteredVolunteers = volunteers.filter((volunteer)=>{
         switch(searchMethod) {
-          case "Preferred Name":
-                if(volunteer.preferred_name){
-                   return volunteer.preferred_name?.toLowerCase().includes(normalizedSearch)
-                }
+          case "First":
                 return volunteer.first_name?.toLowerCase().includes(normalizedSearch);
           case "Last Name":
                 return volunteer.last_name?.toLowerCase().includes(normalizedSearch);
@@ -65,22 +64,39 @@ function VolunteerList(){
 
     const filteredVolunteers = filterVolunteers();
     
+      /* Functions to display data properly on cards */
 
 
       function getInitials(volunteer) {
-        const first = volunteer.preferred_name || volunteer.first_name;
+        const first = volunteer.first_name;
         return `${first.charAt(0)}${volunteer.last_name.charAt(0)}`.toUpperCase();
       }
   
 
       function formatData(data){
-        console.log(data);
         let formatedData = data[0].charAt(0).toUpperCase() + data[0].slice(1);
         for(let i = 1; i < data.length; i++){
           formatedData += `, ${data[i].charAt(0).toUpperCase() + data[i].slice(1)}`
         }
         return formatedData;
       }
+
+      /* Functions to Edit Volunteer */
+      const [volunteerInfo, setVolunteerInfo] = useState({})
+
+      async function handleRetrieveVolunteer(email){ //{success: true, error: null, data: data};
+        const {success, error, data} = await retrieveVolunteer(email);
+          if(!success){
+            console.log(error);
+            return;
+          }
+          if(success){
+            setVolunteerInfo(data);
+            setShowEditVolunteerFrom(true);
+            return;
+          }
+        }
+      
 
 
       return (
@@ -110,7 +126,7 @@ function VolunteerList(){
           value = {searchMethod}
         >
           <option value="Role">Role</option>
-          <option value="Preferred Name">Preferred Name</option>
+          <option value="First Name">Preferred Name</option>
           <option value="Last Name">Last Name</option>
           <option value="Subject">Subject</option>
         </select>
@@ -150,7 +166,7 @@ function VolunteerList(){
 
               <div className="volunteer-info">
                 <h3>
-                  {volunteer.preferred_name || volunteer.first_name} {volunteer.last_name}
+                  {volunteer.first_name} {volunteer.last_name}
                 </h3>
 
                 <p>
@@ -166,9 +182,6 @@ function VolunteerList(){
             <div className="volunteer-details">
 
               <div className="badge-section">
-
-               
-
                 <div className="badge-container">
 
                  {volunteer.subject.map((subject) => (
@@ -182,7 +195,7 @@ function VolunteerList(){
                 </div>
               </div>
             </div>
-               <button className = "edit-cards">:::</button>
+               <button className = "edit-cards" onClick = {() => {handleRetrieveVolunteer(volunteer.email)}}>:::</button>
 
           </div>
 
@@ -205,6 +218,7 @@ function VolunteerList(){
     </div>
 
     {showNewVolunteerForm && <AddVolunteer onClose = {() => setShowNewVolunteerForm(false)}/>}
+    {showEditVolunteerFrom && <EditVolunteerInfo currVolunteerInfo = {volunteerInfo} closeModal = {() => {setShowEditVolunteerFrom(false)}}/>}
 
   </div>
 );

@@ -260,9 +260,17 @@
     filter: brightness(1.05);
 }
 
+.edit-cards{
+    color: black;
+    border: none;
+    background-color: white;
+    margin-left: 1em;
+    font-weight: 700;
+}
 
 
-/* Volunteer Modal */
+
+/* Edit/Add Volunteer Modal */
 
 
 .modal-overlay{
@@ -311,20 +319,19 @@
 }
 
 .modal-header h1{
-    margin:0;
+    margin-bottom:.5em;
     font-size:2rem;
     font-weight:900;
     color: black;
 }
 
+
 .modal-header p{
-
     margin-top:.45rem;
-
     color:var(--gray);
-
     font-size:.95rem;
 }
+
 
 /* close modal btn */
 
@@ -349,6 +356,7 @@
     background:#61ccc3;
     color:white;
     transform:rotate(90deg);
+    transform:translateY(-3px);
 }
 
 /* section titles */
@@ -361,6 +369,8 @@
     font-weight:700;
     color:var(--dark);
 }
+
+
 
 /* grid */
 
