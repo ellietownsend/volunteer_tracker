@@ -2,16 +2,15 @@ import supabase from "../../supabase-client";
 
 export async function addVolunteer(volunteer){
 
+
     const {
         email,
         firstName,
         lastName,
         preferredName,
-        lastVolunteerDate,
         birthdate,
         subject,
         role,
-        hoursContributed,
     } = volunteer;
 
     try{
@@ -23,11 +22,9 @@ export async function addVolunteer(volunteer){
                     first_name: firstName,
                     last_name: lastName,
                     preferred_name: preferredName,
-                    last_volunteer_date: lastVolunteerDate,
                     birthdate,
                     subject,
                     role,
-                    hours_contributed: hoursContributed,
                 }
             )
         if(error){
@@ -53,6 +50,32 @@ export async function addVolunteer(volunteer){
     }
 
     return data;
+}
+
+export async function retrieveVolunteer(email){
+    const {data, error} = await supabase
+        .from("volunteer")
+        .select("*")
+        .eq("email", email)
+        .single();
+
+    if(error){
+        return {success: false, error: error, data: null};
+    }
+    return {success: true, error: null, data: data};
+}
+
+export async function updateVolunteer(email, column, newValue){
+    console.log(column);
+    const {data, error} = await supabase
+        .from("volunteer")
+        .update({[column]: newValue})
+        .eq("email", email)
+    if(error){
+        return {success: false, error: error, data: null};
+    }
+    console.log(data);
+    return {success: true, error: null, data: data};
 }
 
 
