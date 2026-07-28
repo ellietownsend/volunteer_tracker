@@ -30,20 +30,22 @@ function VolunteerList(){
     const [search, setSearch] = useState("");
     const [searchMethod, setSearchMethod] = useState("Role");
 
+    /*search bar */
     function handleSearch(e){
         setSearch(e.target.value);
     }
 
+    /*search method */
     function handleSearchMethod(e){
+        console.log(e.target.value);
         setSearchMethod(e.target.value);
     }
-
     
     function filterVolunteers(){
-      const normalizedSearch = search.toLowerCase();
+      const normalizedSearch = search?.toLowerCase();
       const filteredVolunteers = volunteers.filter((volunteer)=>{
         switch(searchMethod) {
-          case "First":
+          case "First Name":
                 return volunteer.first_name?.toLowerCase().includes(normalizedSearch);
           case "Last Name":
                 return volunteer.last_name?.toLowerCase().includes(normalizedSearch);
@@ -63,9 +65,7 @@ function VolunteerList(){
     }
 
     const filteredVolunteers = filterVolunteers();
-    
       /* Functions to display data properly on cards */
-
 
       function getInitials(volunteer) {
         const first = volunteer.first_name;
@@ -73,12 +73,14 @@ function VolunteerList(){
       }
   
 
-      function formatData(data){
-        let formatedData = data[0].charAt(0).toUpperCase() + data[0].slice(1);
-        for(let i = 1; i < data.length; i++){
-          formatedData += `, ${data[i].charAt(0).toUpperCase() + data[i].slice(1)}`
+      function formatData(data = []) {
+        if (!Array.isArray(data) || data.length === 0) {
+          return "";
         }
-        return formatedData;
+
+        return data
+          .map(item => item.charAt(0).toUpperCase() + item.slice(1))
+          .join(", ");
       }
 
       /* Functions to Edit Volunteer */
@@ -98,7 +100,6 @@ function VolunteerList(){
         }
       
 
-
       return (
           <div className="volunteer-dashboard">
             <div className="volunteer-header">
@@ -112,24 +113,21 @@ function VolunteerList(){
                   }
                 </p>
             </div>
+          </div>
 
-     
-
-    </div>
-
-    <div className="search-toolbar">
-      <label>
-        Search by: 
-        <select
-          name="searchMethod"
-          onChange = {handleSearchMethod}
-          value = {searchMethod}
-        >
-          <option value="Role">Role</option>
-          <option value="First Name">First Name</option>
-          <option value="Last Name">Last Name</option>
-          <option value="Subject">Subject</option>
-        </select>
+          <div className="search-toolbar">
+            <label>
+              Search by: 
+              <select
+                name="searchMethod"
+                onChange = {handleSearchMethod}
+                value = {searchMethod}
+              >
+                <option value="Role">Role</option>
+                <option value="First Name">First Name</option>
+                <option value="Last Name">Last Name</option>
+                <option value="Subject">Subject</option>
+              </select>
 
         <input
           type="text"
