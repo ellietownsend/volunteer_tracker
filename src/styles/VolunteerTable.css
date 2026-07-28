@@ -266,6 +266,7 @@
     background-color: white;
     margin-left: 1em;
     font-weight: 700;
+    cursor: pointer;
 }
 
 
@@ -492,34 +493,71 @@
     color:#0f766e;
 }
 
-/* submit button wrapper */
+/* submit button + remove volunteer button wrapper */
 
-.modal-actions{
-    display:flex;
-    justify-content:center;
-    margin-top:2.5rem;
+.modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
 }
 
-/* submit button for "add volunteer" form */
-
-.submit-btn{
-    min-width:20em;
-    padding:1em 2em;
-    border:none;
-    border-radius:14px;
-    background:#61ccc3;
-    color:white;
-    font-size:1rem;
-    font-weight:700;
-    cursor:pointer;
-    transition:
-        transform .25s,
-        box-shadow .25s,
-        filter .25s;
+/* Remove volunteer section */
+.remove-volunteer-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-left: 2em;
 }
 
-.submit-btn:hover{
-    transform:translateY(-2px);
+.remove-volunteer-checkbox {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+
+.remove-volunteer-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.remove-volunteer-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.remove-warning {
+    font-size: 0.75rem;
+    color: #777;
+}
+
+/* Turn text red when checked */
+.remove-volunteer-checkbox:checked + .remove-volunteer-text .remove-volunteer-label,
+.remove-volunteer-checkbox:checked + .remove-volunteer-text .remove-warning {
+    color: #d32f2f;
+}
+
+/* Submit button */
+.submit-btn {
+    min-width: 20em;
+    padding: 1em 2em;
+    border: none;
+    border-radius: 14px;
+    background: #61ccc3;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .25s, box-shadow .25s, filter .25s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
 }
 
 
