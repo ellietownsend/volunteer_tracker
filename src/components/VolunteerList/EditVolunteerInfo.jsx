@@ -69,7 +69,7 @@ function EditVolunteerInfo({currVolunteerInfo, closeModal}){
                 <div>
                     <h1>Change {currVolunteerInfo.first_name}'s info:</h1>
                     <p>
-                        Change any box's information. If the box is not changed, that informatin will remain the same. 
+                        Change any box's information. If the box is not changed, that information will remain the same. 
                     </p>
                 </div>
                 <button
@@ -86,14 +86,15 @@ function EditVolunteerInfo({currVolunteerInfo, closeModal}){
                     <div className="form-grid">
                         {personalInformation.map((item) => (
                             <div className="field" key = {item}>
-                                <label> {normalizePersonalInformation(item)} </label>
+                                <label > {normalizePersonalInformation(item)} 
                                     <input
-                                        type={item}
+                                        type="text"
                                         required
                                         name={item}
                                         id={item}
                                         defaultValue = {currVolunteerInfo[item]}
                                     />
+                                </label>
                             </div>
                         ))}
                     </div>
@@ -134,7 +135,11 @@ function EditVolunteerInfo({currVolunteerInfo, closeModal}){
         </div>
 
       <div className="modal-actions">
+
         <div className="remove-volunteer-container">
+
+
+
             <input
                 id="remove-volunteer-btn"
                 name="remove-volunteer-btn"
@@ -143,11 +148,9 @@ function EditVolunteerInfo({currVolunteerInfo, closeModal}){
             />
 
             <div className="remove-volunteer-text">
-                <label
-                    htmlFor="remove-volunteer-btn"
-                    className="remove-volunteer-label"
-                >
+                <label htmlFor = "remove-volunteer-btn" className="remove-volunteer-label">
                     Remove Volunteer
+
                 </label>
 
                 <span className="remove-warning">
