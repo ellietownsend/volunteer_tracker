@@ -1,5 +1,5 @@
 import { useState, useActionState } from "react";
-import { updateVolunteer } from "../../services/volunteerList";
+import { updateVolunteer, removeVolunteer } from "../../services/volunteerList";
 import { classes, roles, isEqual, personalInformation, normalizePersonalInformation } from "../../utils/lib";
 import ShowSuccess from "./ShowSuccess";
 
@@ -20,6 +20,15 @@ function EditVolunteerInfo({currVolunteerInfo, closeModal}){
 
     const [error, submitupdatedVolunteerInfo, isPending] = useActionState((
         async (prevSubmission, updatedVolunteerInfo) => {
+            if(updatedVolunteerInfo.get('remove-volunteer-btn')){
+                const {success, error, data} = removeVolunteer(updatedVolunteerInfo.get('email'));
+                if(!success){
+                    return error;
+                }
+                return null;
+            }
+
+
 
             const volunteer = {
             email: updatedVolunteerInfo.get('email'),
@@ -38,7 +47,6 @@ function EditVolunteerInfo({currVolunteerInfo, closeModal}){
                     );
 
                     if (!success) {
-                        console.error(error);
                         setUpdatedSucessfully(false);
                         return error;
                     }
@@ -92,15 +100,15 @@ function EditVolunteerInfo({currVolunteerInfo, closeModal}){
                 </h2>
                 <div className="subject-group">
                 {classes.map((className) => (
-                <label key={className} className="choice-card">
-                    <input
-                    type="checkbox"
-                    name="subject"
-                    value = {className}
-                    defaultChecked={currVolunteerInfo.subject?.includes(className)}
-                    />
-                    <span>{className}</span>
-                </label>
+                    <label key={className} className="choice-card">
+                        <input
+                        type="checkbox"
+                        name="subject"
+                        value = {className}
+                        defaultChecked={currVolunteerInfo.subject?.includes(className)}
+                        />
+                        <span>{className}</span>
+                    </label>
                 ))}
                 </div>
 
