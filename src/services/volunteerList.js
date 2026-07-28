@@ -3,9 +3,8 @@ import supabase from "../../supabase-client";
 export async function addVolunteer(volunteer){
     const {
         email,
-        firstName,
-        lastName,
-        preferredName,
+        first_name,
+        last_name,
         birthdate,
         subject,
         role,
@@ -17,9 +16,8 @@ export async function addVolunteer(volunteer){
         .insert(
             {
                 email,
-                first_name: firstName,
-                last_name: lastName,
-                preferred_name: preferredName,
+                first_name,
+                last_name,
                 birthdate,
                 subject,
                 role,
@@ -60,7 +58,6 @@ export async function retrieveVolunteer(email){
 }
 
 export async function updateVolunteer(email, column, newValue){
-    console.log(column);
     const {data, error} = await supabase
         .from("volunteer")
         .update({[column]: newValue})
@@ -71,6 +68,20 @@ export async function updateVolunteer(email, column, newValue){
     console.log(data);
     return {success: true, error: null, data: data};
 }
+
+// Renove volunteer from database
+
+export async function removeVolunteer(email){
+    const {data, error} = await supabase
+        .from("volunteer")
+        .delete()
+        .eq('email', email)
+    if(error){
+        return {success: false, error: error, data: null};
+    }
+    return {success: true, error: null, data: data};
+}
+
 
 
 
