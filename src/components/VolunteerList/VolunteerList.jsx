@@ -126,7 +126,7 @@ function VolunteerList(){
           value = {searchMethod}
         >
           <option value="Role">Role</option>
-          <option value="First Name">Preferred Name</option>
+          <option value="First Name">First Name</option>
           <option value="Last Name">Last Name</option>
           <option value="Subject">Subject</option>
         </select>

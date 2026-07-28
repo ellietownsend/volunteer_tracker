@@ -5,7 +5,8 @@ import ShowSuccess from "./ShowSuccess";
 
 
 function EditVolunteerInfo({currVolunteerInfo, closeModal}){ 
-    const [updatedSucessfully, setUpdatedSucessfully] = useState(null);
+    const [successMessage, setSuccessMessage] = useState("");
+    
 
     const {
         email,
@@ -21,15 +22,18 @@ function EditVolunteerInfo({currVolunteerInfo, closeModal}){
     const [error, submitupdatedVolunteerInfo, isPending] = useActionState((
         async (prevSubmission, updatedVolunteerInfo) => {
             if(updatedVolunteerInfo.get('remove-volunteer-btn')){
-                const {success, error, data} = removeVolunteer(updatedVolunteerInfo.get('email'));
+                const {success, error, data} = await removeVolunteer(updatedVolunteerInfo.get('email'));
                 if(!success){
                     return error;
                 }
+                setSuccessMessage("Volunteer removal");
+
+                setTimeout(() => {
+                        closeModal();
+                    }, 1500);
+                    
                 return null;
             }
-
-
-
             const volunteer = {
             email: updatedVolunteerInfo.get('email'),
             first_name: updatedVolunteerInfo.get('first_name'), 
@@ -47,10 +51,9 @@ function EditVolunteerInfo({currVolunteerInfo, closeModal}){
                     );
 
                     if (!success) {
-                        setUpdatedSucessfully(false);
                         return error;
                     }
-                    setUpdatedSucessfully(true);
+                    setSuccessMessage("Volunteer update");
                     setTimeout(() => {
                         closeModal();
                     }, 1500);
@@ -162,7 +165,8 @@ function EditVolunteerInfo({currVolunteerInfo, closeModal}){
         </div>
 
     </form>
-    {updatedSucessfully ?<ShowSuccess whatSucceeded = "volunteer_update" onClose = {closeModal}/> : <>{error}</>}
+    {console.log(successMessage)}
+    {successMessage ? <ShowSuccess message = {successMessage} onClose = {closeModal}/> : <>{error}</>}
 
   </div>
 </div>

@@ -2,26 +2,32 @@ import { useState, useActionState } from "react";
 import { classes, roles, isEqual, personalInformation, normalizePersonalInformation } from "../../utils/lib";
 import ShowSuccess from "./ShowSuccess";
 import "../../styles/VolunteerTable.css";
+import { addVolunteer } from "../../services/volunteerList";
 
 
 export function AddVolunteer({onClose}){
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   /* Form submission logic */
   const [error, submitAction, isPending] = useActionState(
       async (prevSubmission, newVolunteer) => {
         const volunteer = {
           email: newVolunteer.get('email'),
-          firstName: newVolunteer.get('firstName'), 
-          lastName: newVolunteer.get('lastName'),
+          first_name: newVolunteer.get('first_name'), 
+          last_name: newVolunteer.get('last_name'),
           birthdate: newVolunteer.get('birthdate'),
           role: newVolunteer.getAll('role'),
           subject: newVolunteer.getAll('subject'),
         };
+
         /* send volunteer information to supabase */
         const {success, error} = await addVolunteer(volunteer); 
           if(!success){
-            return {error: error}
+            return error;
           }
+          onClose();
+          setSuccessMessage("Volunteer add");
         return null;
         }
     ,[])
@@ -55,9 +61,9 @@ export function AddVolunteer({onClose}){
       <div className="form-grid">
          {personalInformation.map((item) => (
             <div className="field" key = {item}>
-              <label> {normalizePersonalInformation(item)} </label>
+              <label htmlFor = {item}> {normalizePersonalInformation(item)} </label>
                   <input
-                      type={item}
+                      type="text"
                       required
                       name={item}
                       id={item}
@@ -109,7 +115,14 @@ export function AddVolunteer({onClose}){
       </button>
    </div>
 
-  {error || <ShowSuccess whatSucceeded = "volunteer_added"/> }
+  {error && <p>{error}</p>}
+
+  {successMessage && (
+      <ShowSuccess
+          whatSucceeded="Volunteer added"
+          onClose={onClose}
+      />
+  )}
   </form>
 
   </div>
