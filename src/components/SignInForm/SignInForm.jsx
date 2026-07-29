@@ -1,6 +1,6 @@
 import { useActionState, useState} from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "../../styles/SigninFrom.css";
+import "../../styles/SigninForm.css";
 import { useAuth } from "../../context/AuthContext";
 
 

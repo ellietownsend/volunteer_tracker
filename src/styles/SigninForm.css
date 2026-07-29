@@ -1,7 +1,6 @@
 /* Google Font (optional) */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); 
 
-
 :root{
     --primary:#6C63FF;
     --secondary:#FF6BB5;
@@ -37,9 +36,6 @@
     overflow:hidden;
 }
 
-/* blurred circles in background */
-
-
 .signin-wrapper::before{
     content:"";
 
@@ -71,8 +67,6 @@
 
     animation:float2 10s ease-in-out infinite;
 }
-
-
 
 /* sign in card*/
 
@@ -169,8 +163,6 @@
     flex-direction:column;
     gap:40px;
 }
-
-
 /* form label (Email)*/
 
 .form-group label{
@@ -184,17 +176,12 @@
 
 /* Email Input */
 
-
-
 .signin-body input[type="email"]{
-
     width:100%;
 
     padding:14px 16px;
 
     border-radius:14px;
-
-
     border:2px solid #8a84ca;
 
     background:rgb(250, 249, 255);
@@ -203,7 +190,6 @@
 
     transition:.3s;
 }
-
 
 /* Error message */
 
@@ -323,16 +309,6 @@ button:disabled{
         transform:translateX(-120px);
     }
 
-}
-
-:root {
-    --primary: #6C63FF;
-    --secondary: #FF6BB5;
-    --accent: #45C4FF;
-    --dark: #263238;
-    --gray: #64748b;
-    --light: #ffffff;
-    --border: #E6EAF3;
 }
 
 /* Dark overlay */
