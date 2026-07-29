@@ -60,9 +60,6 @@ function ShowInactiveVolunteers(){
     ) : (
       <div className="inactive-volunteers-page">
         <div className="inactive-volunteers-card">
-          <div className="inactive-icon">
-            👥
-          </div>
 
           <h2>Inactive Volunteers</h2>
 
@@ -80,14 +77,21 @@ function ShowInactiveVolunteers(){
               Reach out to encourage them to get involved again.
             </span>
           </div>
-
-          <button
-            onClick={sendEmailToInactiveVolunteers}
-            type="button"
-            className="submit-btn"
-          >
-            Reach Out
-          </button>
+          {inactiveVolunteers.length > 0 
+              ? <button
+              onClick={sendEmailToInactiveVolunteers}
+              type="button"
+              className="submit-btn"
+              >
+                Reach Out
+              </button> 
+              : 
+              <div className="inactive-empty-state">
+                  <p>All volunteers are currently active.</p>
+              </div>
+          
+          }
+          
         </div>
       </div>
     )}

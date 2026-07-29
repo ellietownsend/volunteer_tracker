@@ -1,6 +1,7 @@
 import VolunteerList from "../components/VolunteerList/VolunteerList.jsx";
 import { useAuth } from "../context/AuthContext";
 import ShowInactiveVolunteers from "../components/ShowInactiveVolunteers/ShowInactiveVolunteers.jsx";
+import "../styles/Dashboard.css";
 
 function SignOut(){
     const {signOutUser} = useAuth();
@@ -12,13 +13,15 @@ function SignOut(){
 
 function Dashboard(){
     return (
-        <>
-        <SignOut />
-        <VolunteerList />
-        <ShowInactiveVolunteers />
+       <main>
+            <div className="volunteer-list">
+                <VolunteerList />
+            </div>
 
-        <p> Dashboard </p>
-        </>
+            <div className="inactive-volunteers">
+                <ShowInactiveVolunteers />
+            </div>
+        </main>
     );
 }
 

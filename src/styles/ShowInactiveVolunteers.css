@@ -1,48 +1,47 @@
 .inactive-volunteers-page {
     display: flex;
     justify-content: center;
-    padding: 2rem;
+    padding: 0;
+    margin: 0;
 }
 
 .inactive-volunteers-card {
     width: 100%;
-    max-width: 420px;
-    padding: 2rem;
+    max-width: 20em;
+    padding: 2em;
     border: 1px solid #e5e7eb;
     border-radius: 16px;
     background: #fff;
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: .4rem;
     transition: 0.3s ease;
+    overflow-y: auto;     
+    overflow-x: hidden; 
 }
 
 .inactive-volunteers-card:hover {
-    
     box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     border: 1px solid #e5e7eb;
 }
 
-.inactive-icon {
-    font-size: 3rem;
-}
 
 .inactive-volunteers-card h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 }
 
 .inactive-count {
-    width: 80px;
-    height: 80px;
+    width: 2em;
+    height: 2em;
     margin: 0 auto;
     border-radius: 50%;
     background: #f4f7fb;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: bold;
     color: #4f8cff;
 }
@@ -94,4 +93,25 @@
 
 .inactive-volunteers-list li:last-child {
     border-bottom: none;
+}
+
+.inactive-empty-state {
+    margin-top: 0.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    text-align: center;
+}
+
+
+.inactive-empty-state p {
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.4;
 }
