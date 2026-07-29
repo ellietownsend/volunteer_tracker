@@ -22,7 +22,7 @@ function VolunteerList(){
       }
 
       callRetrieveVolunteers();
-    }, []);
+    }, [volunteers]);
    
 
 

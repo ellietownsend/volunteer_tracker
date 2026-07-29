@@ -1,6 +1,6 @@
 import VolunteerList from "../components/VolunteerList/VolunteerList.jsx";
 import { useAuth } from "../context/AuthContext";
-
+import ShowInactiveVolunteers from "../components/ShowInactiveVolunteers/ShowInactiveVolunteers.jsx";
 
 function SignOut(){
     const {signOutUser} = useAuth();
@@ -15,6 +15,8 @@ function Dashboard(){
         <>
         <SignOut />
         <VolunteerList />
+        <ShowInactiveVolunteers />
+
         <p> Dashboard </p>
         </>
     );
