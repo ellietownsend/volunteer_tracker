@@ -2,6 +2,8 @@ import VolunteerList from "../components/VolunteerList/VolunteerList.jsx";
 import { useAuth } from "../context/AuthContext";
 import ShowInactiveVolunteers from "../components/ShowInactiveVolunteers/ShowInactiveVolunteers.jsx";
 import "../styles/Dashboard.css";
+import StudentFeedBackForm from "../components/StudentFeedbackForm/StudentFeedbackForm.jsx";
+
 
 function SignOut(){
     const {signOutUser} = useAuth();
@@ -20,6 +22,7 @@ function Dashboard(){
 
             <div className="inactive-volunteers">
                 <ShowInactiveVolunteers />
+                <StudentFeedBackForm />
             </div>
         </main>
     );
