@@ -105,7 +105,7 @@ function VolunteerList(){
             <div className="volunteer-header">
               <div>
                 <h2 className="dashboard-title">
-                  Volunteers
+                  Volunteer Information
                 </h2>
                 <p className="dashboard-subtitle">
                   {
