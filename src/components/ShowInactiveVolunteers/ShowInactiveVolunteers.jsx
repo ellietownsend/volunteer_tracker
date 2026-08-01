@@ -1,5 +1,4 @@
 import { getInactiveVolunteers } from "../../services/showInactiveVolunteers"
-import { FaCircleInfo } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import "../../styles/ShowInactiveVolunteers.css";
 
@@ -25,9 +24,8 @@ function DisplayInactiveVolunteers({ volunteers }){
                     </ul>
 
                      <div className="inactive-info">
-                        <FaCircleInfo className="info-icon" />
                             <span>
-                            Look in your drafts email to offically send email. 
+                            Look in your email drafts to offically send email. 
                             </span>
                      </div>
 
@@ -39,10 +37,36 @@ function DisplayInactiveVolunteers({ volunteers }){
 function ShowInactiveVolunteers(){
     const [inactiveVolunteers, setInactiveVolunteers] = useState([]);
     const [sendEmail, setSendEmail] = useState(false);
+    const [generatedEmails, setGeneratedEmails] = useState([]);
 
-    function sendEmailToInactiveVolunteers(){
-        setSendEmail(true);
+    async function sendEmailToInactiveVolunteers(){
+        try {
+          const response = await fetch("http://localhost:3001/api/createmail", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(inactiveVolunteers),
+          });
+
+          if(!response.ok){
+            throw new Error("Request failed");
+          }
+
+          const forattedResponse = await response.json();
+
+          setGeneratedEmails(forattedResponse.data.emails);
+
+          setSendEmail(true);
+
+        } catch (error) {
+          console.error("API error:", error);
+        }
     }
+
+    useEffect(() => {
+  console.log("generatedEmails changed:", generatedEmails);
+}, [generatedEmails]);
 
 
      useEffect(() => {
@@ -72,16 +96,15 @@ function ShowInactiveVolunteers(){
           </p>
 
           <div className="inactive-info">
-            <FaCircleInfo className="info-icon" />
             <span>
-              Reach out to encourage them to get involved again.
+              ⚠️  Reach out to encourage them to get involved again.
             </span>
           </div>
           {inactiveVolunteers.length > 0 
               ? <button
               onClick={sendEmailToInactiveVolunteers}
               type="button"
-              className="submit-btn"
+              className="show-inactive-submit-btn"
               >
                 Reach Out
               </button> 
