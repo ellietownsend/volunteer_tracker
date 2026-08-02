@@ -1,6 +1,7 @@
 import { getInactiveVolunteers } from "../../services/showInactiveVolunteers"
 import { useEffect, useState } from "react";
 import "../../styles/ShowInactiveVolunteers.css";
+import { sendEmailToInactiveVolunteers } from "../../services/showInactiveVolunteers";
 
 
 function DisplayInactiveVolunteers({ volunteers }){
@@ -39,30 +40,12 @@ function ShowInactiveVolunteers(){
     const [sendEmail, setSendEmail] = useState(false);
     const [generatedEmails, setGeneratedEmails] = useState([]);
 
-    async function sendEmailToInactiveVolunteers(){
-        try {
-          const response = await fetch("http://localhost:3001/api/createmail", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(inactiveVolunteers),
-          });
-
-          if(!response.ok){
-            throw new Error("Request failed");
-          }
-
-          const forattedResponse = await response.json();
-
-          setGeneratedEmails(forattedResponse.data.emails);
-
-          setSendEmail(true);
-
-        } catch (error) {
-          console.error("API error:", error);
-        }
+    const handleSendEmail = async () => {
+        const emails = await sendEmailToInactiveVolunteers(inactiveVolunteers);
+        setGeneratedEmails(emails);
+        setSendEmail(true);
     }
+
 
     useEffect(() => {
   console.log("generatedEmails changed:", generatedEmails);
@@ -102,7 +85,7 @@ function ShowInactiveVolunteers(){
           </div>
           {inactiveVolunteers.length > 0 
               ? <button
-              onClick={sendEmailToInactiveVolunteers}
+              onClick={handleSendEmail}
               type="button"
               className="show-inactive-submit-btn"
               >
