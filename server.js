@@ -6,12 +6,46 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { emailSchema } from "./schema.js";
 import { organizationMission, organizationName } from "./src/utils/lib";
+import { google } from "googleapis";
+
 
 dotenv.config();
+const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(cors({
+  origin: "http://localhost:5173"
+}));
+app.use(express.json());
+
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+const PORT = 3001;
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
+
+/* AI Configuration */
 
 const client = new Groq({
   apiKey: process.env.AI_KEY,
 });
+
+/* Google OAuth2 Configuration */
+
+const oauth2Client = new google.auth.OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.GOOGLE_REDIRECT_URI
+);
+
+
+
 
 const fewShotPrompt = [
   {
@@ -60,16 +94,9 @@ let messages = [
 `
     },
 ]
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-const app = express();
 
-app.use(cors({
-  origin: "http://localhost:5173"
-}));
-
-app.use(express.json());
+/* API Endpoints */
 
 app.post("/api/createmail", async (req, res) => {
   const userData = req.body; 
@@ -92,14 +119,46 @@ app.post("/api/createmail", async (req, res) => {
   res.status(200).json({ status: 'success', data: email });
   });
 
-app.use(express.static(path.join(__dirname, 'dist')));
 
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+ app.get("/auth/google/status", (req, res) => {
+  console.log('getting here!')
+    if (refreshTokenExists) {
+      return res.json({ connected: true });
+    }
+    return res.json({ connected: false });
 });
 
-const PORT = 3001;
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  app.get("/auth/google/callback", async (req, res) => {
+  try {
+    const { code } = req.query;
+
+    const { tokens } = await oauth2Client.getToken(code);
+
+    oauth2Client.setCredentials(tokens);
+
+    console.log(tokens);
+
+    // TODO:
+    // Save tokens.refresh_token in your database
+    // Associate it with the logged-in Supabase user
+
+    res.send("Gmail connected successfully!");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("OAuth failed");
+  }
 });
+
+  app.get("/auth/google", (req, res) => {
+  const url = oauth2Client.generateAuthUrl({
+    access_type: "offline",
+    prompt: "consent",
+    scope: [
+      "https://www.googleapis.com/auth/gmail.compose",
+    ],
+  });
+
+  res.redirect(url);
+});
+
