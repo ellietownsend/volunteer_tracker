@@ -40,19 +40,24 @@ export async function getInactiveVolunteers(){
 
     return formattedData;
     }
-/*
-function checkGoogleToken(inactiveVolunteers){
-    const reponse = await fetch("/auth.google/status", {
+
+
+export async function checkGoogleToken(){
+    console.log("Checking Google token...");
+    const response = await fetch("/api/auth/google/status", {
         credentials: "include",
     });
+    console.log(response);
     const data = await response.json();
+    console.log("Data from checkGoogleToken:", data);
     if(!data.connected){
+        console.log("no token found, redirecting to Google OAuth...");
         window.location.href = "/auth/google";
     }else{
-        sendEmailToInactiveVolunteers(inactiveVolunteers);
+        return true;
     }
 }
-*/
+
 
  export async function sendEmailToInactiveVolunteers(inactiveVolunteers){
         try {
@@ -75,6 +80,6 @@ function checkGoogleToken(inactiveVolunteers){
         } catch (error) {
           console.error("API error:", error);
         }
-    }
+}
 
 
