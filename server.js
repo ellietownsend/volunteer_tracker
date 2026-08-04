@@ -7,8 +7,7 @@ import { fileURLToPath } from 'url';
 import { emailSchema } from "./schema.js";
 import { organizationMission, organizationName } from "./src/utils/lib";
 import { google } from "googleapis";
-
-
+const refreshTokenExists = false; // Placeholder for actual token check logic
 dotenv.config();
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -20,9 +19,6 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
 
 const PORT = 3001;
 
@@ -120,12 +116,10 @@ app.post("/api/createmail", async (req, res) => {
   });
 
 
- app.get("/auth/google/status", (req, res) => {
-  console.log('getting here!')
-    if (refreshTokenExists) {
-      return res.json({ connected: true });
-    }
-    return res.json({ connected: false });
+ app.get("/api/auth/google/status", (req, res) => {
+      res.json({
+      connected: !!refreshTokenExists,
+    });
 });
 
 
@@ -160,5 +154,9 @@ app.post("/api/createmail", async (req, res) => {
   });
 
   res.redirect(url);
+});
+
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
