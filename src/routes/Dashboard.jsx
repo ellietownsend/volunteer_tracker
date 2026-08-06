@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import ShowInactiveVolunteers from "../components/ShowInactiveVolunteers/ShowInactiveVolunteers.jsx";
 import "../styles/Dashboard.css";
 import StudentFeedBackForm from "../components/StudentFeedbackForm/StudentFeedbackForm.jsx";
+import VolunteerHours from "../components/VolunteerHours/VolunteerHours.jsx";
 
 
 function SignOut(){
@@ -15,16 +16,28 @@ function SignOut(){
 
 function Dashboard(){
     return (
-       <main>
-            <div className="volunteer-list">
-                <VolunteerList />
-            </div>
+        <>
+            <header>
+                header
+            </header>
 
-            <div className="inactive-volunteers">
-                <ShowInactiveVolunteers />
-                <StudentFeedBackForm />
+            <div className="page">
+                <main>
+                    <VolunteerList />
+                    <VolunteerHours />
+                </main>
+
+                <aside>
+                    <ShowInactiveVolunteers />
+                    <StudentFeedBackForm />
+
+                </aside>
             </div>
-        </main>
+            {SignOut()}
+        
+        </>
+    
+    
     );
 }
 
