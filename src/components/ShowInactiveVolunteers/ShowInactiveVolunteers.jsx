@@ -1,7 +1,7 @@
 import { getInactiveVolunteers } from "../../services/showInactiveVolunteers"
 import { useEffect, useState } from "react";
 import "../../styles/ShowInactiveVolunteers.css";
-import { sendEmailToInactiveVolunteers } from "../../services/showInactiveVolunteers";
+import { checkGoogleToken, sendEmailToInactiveVolunteers } from "../../services/showInactiveVolunteers";
 
 
 function DisplayInactiveVolunteers({ volunteers }){
@@ -41,9 +41,13 @@ function ShowInactiveVolunteers(){
     const [generatedEmails, setGeneratedEmails] = useState([]);
 
     const handleSendEmail = async () => {
-        const emails = await sendEmailToInactiveVolunteers(inactiveVolunteers);
+      if(await checkGoogleToken()){
+        const emails = await sendEmailToInactiveVolunteers(inactiveVolunteers[0]);
         setGeneratedEmails(emails);
         setSendEmail(true);
+      } 
+      window.location.href = "/api/auth/google";
+      
     }
 
 
