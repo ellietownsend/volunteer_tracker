@@ -122,8 +122,20 @@ app.post("/api/createmail", async (req, res) => {
     });
 });
 
+app.get("/api/auth/google", (req, res) => {
+  const url = oauth2Client.generateAuthUrl({
+    access_type: "offline",
+    prompt: "consent",
+    scope: [
+      "https://www.googleapis.com/auth/gmail.compose",
+    ],
+  });
+  res.redirect(url);
 
-  app.get("/auth/google/callback", async (req, res) => {
+});
+
+
+  app.get("api/auth/google/callback", async (req, res) => {
   try {
     const { code } = req.query;
 
@@ -137,24 +149,13 @@ app.post("/api/createmail", async (req, res) => {
     // Save tokens.refresh_token in your database
     // Associate it with the logged-in Supabase user
 
-    res.send("Gmail connected successfully!");
+    res.redirect("http://localhost:5173/dashboard");
   } catch (err) {
     console.error(err);
     res.status(500).send("OAuth failed");
   }
 });
 
-  app.get("/auth/google", (req, res) => {
-  const url = oauth2Client.generateAuthUrl({
-    access_type: "offline",
-    prompt: "consent",
-    scope: [
-      "https://www.googleapis.com/auth/gmail.compose",
-    ],
-  });
-
-  res.redirect(url);
-});
 
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
