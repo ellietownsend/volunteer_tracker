@@ -1,0 +1,68 @@
+* {
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    padding: 1em;
+}
+
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    padding: 1em;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    min-width: 0;
+    gap: 2em;
+}
+
+aside {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    .page {
+        gap: 1rem;
+    }
+
+    main {
+        flex: 2;
+    }
+
+    aside {
+        flex: 1;
+    }
+}
+
+/* Phones */
+@media (max-width: 768px) {
+    .page {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    main,
+    aside {
+        width: 100%;
+        flex: none;
+    }
+
+    header {
+        justify-content: center;
+        text-align: center;
+    }
+}
+
