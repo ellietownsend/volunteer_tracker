@@ -1,4 +1,5 @@
-import supabase from '../../../server/supabase-client';
+import supabase from '../../supabase-client.js';
+
 export async function getInactiveVolunteers(){
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -78,5 +79,7 @@ export async function checkGoogleToken(){
           console.error("API error:", error);
         }
 }
+
+
 
 

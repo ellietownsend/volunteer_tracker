@@ -1,4 +1,4 @@
-import supabase from '../../../server/supabase-client';
+import supabase from '../../supabase-client';
 export async function addVolunteer(volunteer){
     const {
         email,
