@@ -70,7 +70,7 @@ export async function checkGoogleToken(){
             throw new Error("Request failed");
           }
 
-          const forattedResponse = await response.json();
+          const formattedResponse = await response.json();
 
           return forattedResponse.data.emails;
 
