@@ -1,5 +1,21 @@
 import express from "express";
 import { google } from "googleapis";
+import supabase from "./supabase-client.js";
+
+export async function storeTokenInDatabase(uuid, refreshToken){
+    const { data, error } = await supabase
+        .from("tokens")
+        .insert({
+                uid: "",
+                refresh_token: refreshToken,
+            });
+
+    if (error) {
+        console.error("Error storing token in database:", error.message);
+        return {success: false, error: error.message};
+    }
+    return {success: true, error: null};
+}
 
 const router = express.Router();
 
@@ -25,6 +41,7 @@ router.get("/auth/google", (req, res) => {
     scope: [
       "https://www.googleapis.com/auth/gmail.compose",
     ],
+    state,
   });
 
   res.redirect(url);
@@ -32,30 +49,16 @@ router.get("/auth/google", (req, res) => {
 });
 
 router.get("/auth/google/callback", async (req, res) => {
-
-  try {
-
     const { code } = req.query;
-
     const { tokens } = await oauth2Client.getToken(code);
-
     oauth2Client.setCredentials(tokens);
-
     console.log(tokens);
-
-    // TODO:
+    
     // Save refresh token to database
+    
 
     res.redirect("http://localhost:5173/dashboard");
 
-  } catch (err) {
-
-    console.error(err);
-
-    res.status(500).send("OAuth failed");
-
-  }
-
-});
+  });
 
 export default router;
