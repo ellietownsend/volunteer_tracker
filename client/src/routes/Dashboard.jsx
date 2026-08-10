@@ -4,15 +4,7 @@ import ShowInactiveVolunteers from "../components/ShowInactiveVolunteers/ShowIna
 import "../styles/Dashboard.css";
 import StudentFeedBackForm from "../components/StudentFeedbackForm/StudentFeedbackForm.jsx";
 import VolunteerHours from "../components/VolunteerHours/VolunteerHours.jsx";
-
-
-function SignOut(){
-    const {signOutUser} = useAuth();
-
-    return(
-        <button onClick = {signOutUser}>SignOut</button>
-    );
-}
+import Signout from "../components/Signout/Signout.jsx";
 
 function Dashboard(){
     return (
@@ -33,7 +25,7 @@ function Dashboard(){
 
                 </aside>
             </div>
-            <SignOut />
+            <Signout />
         
         </>
     

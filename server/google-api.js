@@ -19,6 +19,7 @@ async function storeTokenInDatabase(uuid, refreshToken){
     return {success: true, error: null};
 }
 
+
 const stateStore = new Map();
 
 
@@ -65,16 +66,23 @@ router.get("/auth/google/callback", async (req, res) => {
     if (!state || !stateStore.has(state)) {
       return res.status(400).send("Invalid state parameter");
     } 
+    try{
+      const { tokens } = await oauth2Client.getToken(code);
+      const userID = stateStore.get(state);
+      const result = await storeTokenInDatabase(stateStore.get(state), tokens.refresh_token);
+      res.redirect("http://localhost:5173/dashboard");
 
-    const { tokens } = await oauth2Client.getToken(code);
-    
-    storeTokenInDatabase(stateStore.get(state), tokens.refresh_token);
+      if (!result.success) {
+        console.error("Failed to save refresh token:", result.error);
+        return res.status(500).send("Unable to save Google credentials");
+      }
+
+     }catch(error){
+      console.error("Error occurred while fetching tokens:", error.message);
+      return res.status(500).send("Google authentication failed");
+     }
 
      stateStore.delete(state);
-    
-    res.redirect("http://localhost:5173/dashboard");
-  
-
   });
 
 export default router;
