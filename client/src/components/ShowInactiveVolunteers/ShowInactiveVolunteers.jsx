@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "../../styles/ShowInactiveVolunteers.css";
 import { checkGoogleToken, sendEmailToInactiveVolunteers } from "../../services/showInactiveVolunteers";
 import { FaCircleInfo } from 'react-icons/fa6';
+import { useAuth } from "../../context/AuthContext";
 
 
 function DisplayInactiveVolunteers({ volunteers }){
@@ -37,24 +38,23 @@ function DisplayInactiveVolunteers({ volunteers }){
     }
 
 function ShowInactiveVolunteers(){
+    const {session} = useAuth();
     const [inactiveVolunteers, setInactiveVolunteers] = useState([]);
     const [sendEmail, setSendEmail] = useState(false);
     const [generatedEmails, setGeneratedEmails] = useState([]);
 
     const handleSendEmail = async () => {
-      if(await checkGoogleToken()){
+      if(await checkGoogleToken(session?.user?.id)){
         const emails = await sendEmailToInactiveVolunteers(inactiveVolunteers[0]);
         setGeneratedEmails(emails);
         setSendEmail(true);
-      } 
-      window.location.href = "/api/auth/google";
-      
-    }
+      }
+    };
 
 
     useEffect(() => {
-  console.log("generatedEmails changed:", generatedEmails);
-}, [generatedEmails]);
+      console.log("generatedEmails changed:", generatedEmails);
+    }, [generatedEmails]);
 
 
      useEffect(() => {

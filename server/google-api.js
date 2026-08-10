@@ -1,12 +1,14 @@
 import express from "express";
 import { google } from "googleapis";
 import supabase from "./supabase-client.js";
+import crypto from "crypto";
 
-export async function storeTokenInDatabase(uuid, refreshToken){
+
+async function storeTokenInDatabase(uuid, refreshToken){
     const { data, error } = await supabase
         .from("tokens")
         .insert({
-                uid: "",
+                uid: uuid,
                 refresh_token: refreshToken,
             });
 
@@ -16,6 +18,9 @@ export async function storeTokenInDatabase(uuid, refreshToken){
     }
     return {success: true, error: null};
 }
+
+const stateStore = new Map();
+
 
 const router = express.Router();
 
@@ -33,8 +38,12 @@ router.get("/auth/google/status", (req, res) => {
   });
 });
 
-router.get("/auth/google", (req, res) => {
 
+router.get("/auth/google", (req, res) => {
+  const userID = req.query.state;
+  const state = crypto.randomBytes(32).toString("hex");
+  stateStore.set(state, userID);
+  
   const url = oauth2Client.generateAuthUrl({
     access_type: "offline",
     prompt: "consent",
@@ -45,19 +54,26 @@ router.get("/auth/google", (req, res) => {
   });
 
   res.redirect(url);
-
 });
 
 router.get("/auth/google/callback", async (req, res) => {
-    const { code } = req.query;
-    const { tokens } = await oauth2Client.getToken(code);
-    oauth2Client.setCredentials(tokens);
-    console.log(tokens);
-    
-    // Save refresh token to database
-    
+    const { code, state } = req.query;
 
+    if (!code) {
+      return res.status(400).send("Missing code");
+    }
+    if (!state || !stateStore.has(state)) {
+      return res.status(400).send("Invalid state parameter");
+    } 
+
+    const { tokens } = await oauth2Client.getToken(code);
+    
+    storeTokenInDatabase(stateStore.get(state), tokens.refresh_token);
+
+     stateStore.delete(state);
+    
     res.redirect("http://localhost:5173/dashboard");
+  
 
   });
 

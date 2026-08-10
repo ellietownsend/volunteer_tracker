@@ -42,15 +42,16 @@ export async function getInactiveVolunteers(){
     }
 
 
-export async function checkGoogleToken(){
-    const response = await fetch("/api/auth/google/status", {
+export async function checkGoogleToken(state){
+    const response = await fetch(`/api/auth/google/status`, {
         credentials: "include",
     });
     console.log(response);
     const data = await response.json();
     console.log("Data from checkGoogleToken:", data);
     if(!data.connected){
-        window.location.href = "/api/auth/google";
+        console.log("Redirecting to Google OAuth...");
+        window.location.href = `/api/auth/google?state=${state}`;
     }else{
         return true;
     }
