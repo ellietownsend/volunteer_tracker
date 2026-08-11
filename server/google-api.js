@@ -19,13 +19,41 @@ async function storeTokenInDatabase(uuid, refreshToken){
     return {success: true, error: null};
 }
 
+async function refreshTokenExists(uuid){
+  console.log("recieves uuid", uuid);
+  const {data, error} = await supabase
+    .from("tokens")
+    .select("*")
+    .eq("uid", uuid)
+    .maybeSingle();
+
+    if (error) {
+      console.error('Error checking existence:', error);
+      return false;
+    } else {
+      if(data == null){
+        console.error('No result found:', error);
+        return false;
+      }
+      return true;
+}
+
+  console.log(data);
+  console.log(error);
+  if(!data || data.length === 0){
+    console.log("no refresh token found for that uuid found")
+    return false;
+  }
+   console.log("refresh token found for that uuid found")
+  return true;
+}
+
 
 const stateStore = new Map();
 
 
 const router = express.Router();
 
-const refreshTokenExists = false;
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
@@ -33,17 +61,19 @@ const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_REDIRECT_URI
 );
 
-router.get("/auth/google/status", (req, res) => {
+router.get("/auth/google/status", async (req, res) => {
+  const uuid = req.query.uuid;
   res.json({
-    connected: !!refreshTokenExists
+    connected: !!(await refreshTokenExists(uuid)),
   });
 });
 
 
 router.get("/auth/google", (req, res) => {
-  const userID = req.query.state;
+  const uuid = req.query.uuid;
   const state = crypto.randomBytes(32).toString("hex");
-  stateStore.set(state, userID);
+  stateStore.set(state, uuid);
+  console.log("state that was generated",state);
   
   const url = oauth2Client.generateAuthUrl({
     access_type: "offline",
@@ -64,6 +94,7 @@ router.get("/auth/google/callback", async (req, res) => {
       return res.status(400).send("Missing code");
     }
     if (!state || !stateStore.has(state)) {
+      console.log("State that was found",state);
       return res.status(400).send("Invalid state parameter");
     } 
     try{
