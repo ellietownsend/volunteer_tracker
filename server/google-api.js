@@ -210,7 +210,6 @@ router.get("/auth/google", (req, res) => {
   const uuid = req.query.uuid;
   const state = crypto.randomBytes(32).toString("hex");
   stateStore.set(state, uuid);
-  console.log("state that was generated",state);
   
   const url = oauth2Client.generateAuthUrl({
     access_type: "offline",
