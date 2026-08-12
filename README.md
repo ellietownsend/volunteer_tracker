@@ -32,10 +32,10 @@ MLH
 - Please watch this demo of the feature presented in my code sample: [MLH-inactiveVolunteerFeatureDemo.mp4.zip](https://github.com/user-attachments/files/30998503/MLH-inactiveVolunteerFeatureDemo.mp4.zip)
 
 - The files are:
-  1. client/src/components/ShowInactiveVolunteers/ShowInactiveVolunteers.jsx
-  2. client/src/services/showInactiveVolunteers.js
-  3. server/google-api.js
-  4. /Users/ellietownsend/volunteer_tracker/server/groq-api.js
+  1. /volunteer_tracker/client/src/components/ShowInactiveVolunteers/ShowInactiveVolunteers.jsx
+  2. /volunteer_tracker/client/src/services/showInactiveVolunteers.js
+  3. /volunteer_tracker/server/google-api.js
+  4. volunteer_tracker/server/groq-api.js
 
 Thank you!
 
