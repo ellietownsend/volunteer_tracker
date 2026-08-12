@@ -20,231 +20,77 @@ This application provides staff with a centralized platform to:
 - Improve volunteer engagement through milestone recognition
 
 ---
+Key features
+- Passwordless sign-in with Supabase Auth
+- Volunteer directory with add / edit / remove
+- Track volunteer hours and identify inactive volunteers
+- Upload and parse student feedback CSVs
+- Draft personalized outreach emails using an AI service and send as Gmail drafts
 
-## Features
+Quickstart — Run locally
 
-### Authentication
+Prerequisites
+- Node.js (v18+ recommended)
+- npm
+- A Supabase project and credentials
 
-- Passwordless email sign-in
-- Secure authentication using Supabase Auth
-- Protected dashboard routes
+1) Install
 
----
-
-### Volunteer Management
-
-- View all volunteers
-- Add new volunteers
-- Edit volunteer information
-- Remove volunteers
-- Search volunteers by:
-  - First Name
-  - Last Name
-  - Role
-  - Subject
-
----
-
-### Volunteer Dashboard
-
-Central dashboard displaying volunteer information with:
-
-- Search & filtering
-- Volunteer cards
-- Subject badges
-- Role management
-- Quick editing
-
----
-
-### Student Feedback
-
-Upload completed student feedback CSV files.
-
-Features include:
-
-- CSV validation
-- Duplicate upload prevention
-- Future reporting support
-
----
-
-### AI-Powered Volunteer Outreach
-
-Using the Groq API, the application automatically drafts personalized volunteer emails.
-
-The AI uses information such as:
-
-- Volunteer hours
-- Volunteer role
-- Student feedback
-- Participation history
-- Milestone achievements
-
-to send:
-
-- Thank-you emails
-- Volunteer milestone recognition
-- Re-engagement emails for inactive volunteers
-
-The goal is to reduce administrative work while creating personalized communication at scale.
-
----
-
-### Inactive Volunteer Detection
-
-Automatically identifies volunteers who have not participated within the past 30 days.
-
-Staff can generate personalized outreach drafts encouraging volunteers to return.
-
----
-
-## Tech Stack
-
-### Frontend
-
-- React 19
-- React Router
-- Vite
-- CSS Modules
-- Chart.js
-
-### Backend
-
-- Express.js
-- Node.js
-
-### Database & Authentication
-
-- Supabase
-- Supabase Authentication
-
-### AI
-
-- Groq API
-
-### Testing
-
-- Vitest
-- React Testing Library
-
----
-
-## Project Structure
-
-```
-src
-│
-├── assets
-├── components
-│   ├── ImageUploader
-│   ├── ShoutoutForm
-│   ├── ShowInactiveVolunteers
-│   ├── SignInForm
-│   ├── StudentFeedbackForm
-│   ├── VolunteerHoursChart
-│   └── VolunteerList
-│
-├── context
-├── routes
-├── services
-├── styles
-└── utils
+```bash
+cd client
+npm install
+cd ../server
+npm install
 ```
 
----
+2) Add environment variables
+- Create `server/.env` from `.env.serverexample` and set your server secrets:
 
-## Environment Variables
+```env
+AI_KEY=
+AI_MODEL=
+AI_URL=
+CLIENT_ID=
+CLIENT_SECRET=
+GOOGLE_REDIRECT_URI=http://localhost:3001/api/auth/google/callback
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+```
 
-Create a `.env` file in the project root.
+- Create `client/.env` (or `client/.env.local`) with your Supabase publishable keys:
 
 ```env
 VITE_SUPABASE_URL=
 VITE_SUPABASE_ANON_KEY=
-
-AI_KEY=
-AI_MODEL=
-AI_URL=
 ```
 
----
+3) Run the app
 
-## Installation
-
-Clone the repository
-
-```bash
-git clone https://github.com/yourusername/volunteer-management.git
-```
-
-Install dependencies
-
-```bash
-npm install
-```
-
-Run the frontend
-
-```bash
-npm run dev
-```
-
-Start the Express server
+Start the backend from the `server` folder:
 
 ```bash
 node server.js
 ```
 
----
-
-## Running Tests
+Start the frontend from the `client` folder:
 
 ```bash
-npm test
+npm run dev
 ```
 
-The project uses:
+Open `http://localhost:5173` to view the app.
 
-- Vitest
-- React Testing Library
+Basic usage
+- Sign in using the Sign In page (magic link via Supabase).
+- From the dashboard you can view volunteers, add or edit records, and track hours.
+- To draft re-engagement emails: visit the Inactive Volunteers page, generate emails, and connect your Google account. The app stores a Google refresh token on the server so it can create Gmail drafts for you.
 
-to verify:
+Developer notes
+- The frontend runs on Vite (port 5173) and proxies `/api` requests to the Express backend (port 3001).
+- Server routes live in the `server/` folder. Key files:
+  - `server/google-api.js` — Google OAuth flow and token storage
+  - `server/groq-api.js` — AI email generation endpoint
+  - `server/supabase-client.js` — server-side Supabase client
 
-- Volunteer creation
-- Volunteer editing
-- Volunteer removal
-- Form validation
-- Service integration
 
----
 
-## Future Enhancements
-
-- Volunteer attendance tracking
-- Volunteer scheduling
-- Analytics dashboard
-- Student progress reports
-- Automated reminder emails
-- Role-based permissions
-- Email history
-- Volunteer hour approval workflow
-- CSV export
-- Mobile responsive improvements
-
----
-
-## Lessons Learned
-
-This project strengthened my experience with:
-
-- React application architecture
-- State management
-- REST APIs
-- Express.js
-- Supabase
-- Authentication
-- AI integration
-- Automated testing
-- Component-driven development
-- Full-stack application design
-- Building software for a real client
