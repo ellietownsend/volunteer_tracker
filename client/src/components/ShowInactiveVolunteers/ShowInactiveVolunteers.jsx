@@ -1,7 +1,7 @@
 import { getInactiveVolunteers } from "../../services/showInactiveVolunteers"
 import { useEffect, useState } from "react";
 import "../../styles/ShowInactiveVolunteers.css";
-import { checkGoogleToken, sendEmailToInactiveVolunteers } from "../../services/showInactiveVolunteers";
+import { checkGoogleToken, generateEmailToInactiveVolunteers, draftUsingEmailAPI } from "../../services/showInactiveVolunteers";
 import { FaCircleInfo } from 'react-icons/fa6';
 import { useAuth } from "../../context/AuthContext";
 
@@ -40,14 +40,30 @@ function DisplayInactiveVolunteers({ volunteers }){
 function ShowInactiveVolunteers(){
     const {session} = useAuth();
     const [inactiveVolunteers, setInactiveVolunteers] = useState([]);
-    const [sendEmail, setSendEmail] = useState(false);
+    const [draftEmail, setDraftEmail] = useState(false);
     const [generatedEmails, setGeneratedEmails] = useState([]);
 
-    const handleSendEmail = async () => {
-      if(await checkGoogleToken(session?.user?.id)){
-        const emails = await sendEmailToInactiveVolunteers(inactiveVolunteers[0]);
-        setGeneratedEmails(emails);
-        setSendEmail(true);
+    const handleDraftEmail = async () => {
+
+      if (!(await checkGoogleToken(session?.user?.id))) {
+        return;
+      }
+      
+      try {
+        const generatedEmails =
+          await generateEmailToInactiveVolunteers(inactiveVolunteers[0]);
+
+        console.log("Emails generated:", generatedEmails);
+
+        const draftedEmails =
+          await draftUsingEmailAPI(session?.user?.id, generatedEmails);
+
+        console.log("Emails drafted:", draftedEmails);
+
+        setGeneratedEmails(draftedEmails);
+        setDraftEmail(true);
+      } catch (error) {
+        console.error("Email process failed:", error);
       }
     };
 
@@ -67,7 +83,7 @@ function ShowInactiveVolunteers(){
 
   return (
   <>
-    {sendEmail ? (
+    {draftEmail ? (
       <DisplayInactiveVolunteers volunteers={inactiveVolunteers} />
     ) : (
       <div className="inactive-volunteers-page">
@@ -91,7 +107,7 @@ function ShowInactiveVolunteers(){
           </div>
           {inactiveVolunteers.length > 0 
               ? <button
-              onClick={handleSendEmail}
+              onClick={handleDraftEmail}
               type="button"
               className="show-inactive-submit-btn"
               >

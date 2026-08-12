@@ -58,9 +58,10 @@ export async function checkGoogleToken(uuid){
 }
 
 
- export async function sendEmailToInactiveVolunteers(inactiveVolunteers){
+ export async function generateEmailToInactiveVolunteers(inactiveVolunteers){
+    console.log("getting to generateEmailToInactiveVolunteers in js");
         try {
-          const response = await fetch("http://localhost:3001/api/createmail", {
+          const response = await fetch("http://localhost:3001/api/generateEmails", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -69,18 +70,42 @@ export async function checkGoogleToken(uuid){
           });
 
           if(!response.ok){
-            throw new Error("Request failed");
+            throw new Error("Request to generate emails for volunteers failed");
           }
 
           const formattedResponse = await response.json();
 
-          return forattedResponse.data.emails;
+          return formattedResponse.data.emails;
 
         } catch (error) {
           console.error("API error:", error);
+          throw error;
         }
 }
 
+export async function draftUsingEmailAPI(uuid, generatedEmails){
+    try{
+        const response = await fetch(`http://localhost:3001/api/draftEmails`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({uuid, generatedEmails}),
+        })
+
+        if(!response.ok){
+            throw new Error("Unable to draft emails to email API for draft generation");
+        }
+
+        const draftedEmails = await response.json();
+
+        return draftedEmails;
+
+    }catch(error){
+        console.error("API error:", error);
+        throw error;
+    }
+}
 
 
 
