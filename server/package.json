@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "postinstall": "npm --prefix ../client install && npm --prefix ../client run build"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.4",
