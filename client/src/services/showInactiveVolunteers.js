@@ -43,8 +43,8 @@ export async function getInactiveVolunteers(){
 
 
 export async function checkGoogleToken(uuid){
-    const response = await fetch(`/api/auth/google/status?uuid=${uuid}`, {
-        credentials: "include",
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google/status?uuid=${uuid}`, {
+    credentials: "include",
     });
     console.log(response);
     const data = await response.json();

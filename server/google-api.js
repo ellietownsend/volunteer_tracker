@@ -251,7 +251,7 @@ router.get("/auth/google/callback", async (req, res) => {
         console.error("Failed to save refresh token:", result.error);
         return res.status(500).send("Unable to save Google credentials");
       }
-      res.redirect("http://localhost:5173/dashboard");
+      res.redirect(`${process.env.CLIENT_URL}/dashboard`);
 
 
      }catch(error){
