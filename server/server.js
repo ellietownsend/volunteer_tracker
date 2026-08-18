@@ -11,12 +11,18 @@ dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://volunteer-tracker-client-sdwz.onrender.com",
+];
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
+    origin: allowedOrigins,
+    credentials: true,
   })
 );
 
