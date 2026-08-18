@@ -3,7 +3,6 @@ import {useState, useEffect, useActionState} from "react";
 import "../../styles/VolunteerTable.css";
 import { retrieveVolunteers, addVolunteer, retrieveVolunteer } from "../../services/volunteerList";
 import { AddVolunteer } from "./AddVolunteer";
-import { filter } from "framer-motion/client";
 import EditVolunteerInfo from "./EditVolunteerInfo";
 
 
