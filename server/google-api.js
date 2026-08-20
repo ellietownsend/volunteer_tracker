@@ -245,7 +245,6 @@ router.get("/auth/google/callback", async (req, res) => {
     } 
     try{
       const { tokens } = await oauth2Client.getToken(code);
-      const userID = stateStore.get(state);
       const result = await storeTokenInDatabase(stateStore.get(state), tokens.refresh_token);
       if (!result.success) {
         console.error("Failed to save refresh token:", result.error);
@@ -263,7 +262,7 @@ router.get("/auth/google/callback", async (req, res) => {
   });
 
   /**
- * @route POST /draftemails
+ * @route POST /draftEmails
  * @summary  Create a seperate email draft for each inactive volunteer
  * @param {Object} req - Express request object
  * @param {Object} res - Redirection to the dashboard, now signed in
@@ -272,7 +271,7 @@ router.get("/auth/google/callback", async (req, res) => {
  * @returns {Error} 500 - failed to draft emails, google api error
  * @returns {status, summary results} - status of the emails
  */
-  router.post("/draftemails", async (req, res) => {
+  router.post("/draftEmails", async (req, res) => {
   try {
     const { uuid, generatedEmails } = req.body;
 
