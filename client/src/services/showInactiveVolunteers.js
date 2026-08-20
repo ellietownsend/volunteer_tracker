@@ -48,10 +48,9 @@ export async function checkGoogleToken(uuid){
     });
     console.log(response);
     const data = await response.json();
-    console.log("Data from checkGoogleToken:", data);
     if(!data.connected){
         console.log("Redirecting to Google OAuth...");
-        window.location.href = `/api/auth/google?uuid=${uuid}`;
+        window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google?uuid=${uuid}`;
     }else{
         return true;
     }
@@ -61,7 +60,7 @@ export async function checkGoogleToken(uuid){
  export async function generateEmailToInactiveVolunteers(inactiveVolunteers){
     console.log("getting to generateEmailToInactiveVolunteers in js");
         try {
-                    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+                    const API_URL = import.meta.env.VITE_SERVER_URL;
 
                     const response = await fetch(`${API_URL}/api/generateEmails`, {
             method: "POST",
@@ -87,9 +86,8 @@ export async function checkGoogleToken(uuid){
 
 export async function draftUsingEmailAPI(uuid, generatedEmails){
     try{
-                const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
-                const response = await fetch(`${API_URL}/api/draftEmails`, {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/draftEmails`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
