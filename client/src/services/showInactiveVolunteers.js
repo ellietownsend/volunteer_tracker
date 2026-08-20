@@ -60,9 +60,10 @@ export async function checkGoogleToken(uuid){
  export async function generateEmailToInactiveVolunteers(inactiveVolunteers){
     console.log("getting to generateEmailToInactiveVolunteers in js");
         try {
-                    const API_URL = import.meta.env.VITE_SERVER_URL;
+            const API_URL = import.meta.env.VITE_SERVER_URL;
+            console.log("API_URL:", API_URL);
 
-                    const response = await fetch(`${API_URL}/api/generateEmails`, {
+            const response = await fetch(`${API_URL}/api/generateEmails`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
