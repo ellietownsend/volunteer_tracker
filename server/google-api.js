@@ -47,6 +47,7 @@ async function storeTokenInDatabase(uuid, refreshToken){
  * @returns {found, error} found if refresh token was found by database
  */
 async function refreshTokenExists(uuid) {
+    console.log("Checking for refresh token");
     const { data, error } = await supabase
       .from("tokens")
       .select("refresh_token")

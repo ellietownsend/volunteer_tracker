@@ -42,6 +42,7 @@ function ShowInactiveVolunteers(){
     const [inactiveVolunteers, setInactiveVolunteers] = useState([]);
     const [draftEmail, setDraftEmail] = useState(false);
     const [generatedEmails, setGeneratedEmails] = useState([]);
+    const [signedIn, setSignedIn] = useState(false);
 
     const handleDraftEmail = async () => {
       console.log("Calling function hat checks google token");
@@ -51,6 +52,7 @@ function ShowInactiveVolunteers(){
       }
       
       try {
+        setSignedIn(true);
         const generatedEmails =
           await generateEmailToInactiveVolunteers(inactiveVolunteers[0]);
 
@@ -106,18 +108,31 @@ function ShowInactiveVolunteers(){
                 Reach out to encourage them to get involved again.
             </span>
           </div>
-          {inactiveVolunteers.length > 0 
-              ? <button
+          {inactiveVolunteers.length === 0 
+          ?
+            <div className="inactive-empty-state">
+                    <p>All volunteers are currently active.</p>
+                </div>
+          : (signedIn ? 
+            <button
               onClick={handleDraftEmail}
               type="button"
               className="show-inactive-submit-btn"
-              >
+            >
                 Reach Out
-              </button> 
-              : 
-              <div className="inactive-empty-state">
-                  <p>All volunteers are currently active.</p>
-              </div>
+            </button> 
+            :
+             <button
+              onClick={handleDraftEmail}
+              type="button"
+              className="show-inactive-submit-btn"
+            >
+                Sign in to gamail
+            </button> 
+          )
+          
+            
+              
           
           }
           
