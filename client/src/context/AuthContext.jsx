@@ -62,7 +62,7 @@ export const AuthContextProvider =  ({ children }) => {
             const { data, error } = await supabase.auth.signInWithOtp({
                 email,
                  options: {
-                    emailRedirectTo: `${import.meta.env.VITE_API_URL}/dashboard`,
+                    emailRedirectTo: `${import.meta.env.VITE_SERVER_URL}/dashboard`,
                     shouldCreateUser: false,
                 }
             });
