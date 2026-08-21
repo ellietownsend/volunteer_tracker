@@ -43,15 +43,18 @@ export async function getInactiveVolunteers(){
 
 
 export async function checkGoogleToken(uuid){
+    console.log("Entering checkGoogleToken");
     const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/google/status?uuid=${uuid}`, {
     credentials: "include",
     });
-    console.log(response);
     const data = await response.json();
+    console.log("Response from checkgoogletoke", response);
     if(!data.connected){
         console.log("Redirecting to Google OAuth...");
+        console.log(`${import.meta.env.VITE_SERVER_URL}/api/auth/google?uuid=${uuid}`);
         window.location.href = `${import.meta.env.VITE_SERVER_URL}/api/auth/google?uuid=${uuid}`;
     }else{
+        console.log("Google token found");
         return true;
     }
 }
@@ -85,9 +88,9 @@ export async function checkGoogleToken(uuid){
 }
 
 export async function draftUsingEmailAPI(uuid, generatedEmails){
+    console.log("Reaching out to google to make draft")
     try{
-
-                const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/draftEmails`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/draftEmails`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

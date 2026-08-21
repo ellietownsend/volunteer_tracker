@@ -44,8 +44,9 @@ function ShowInactiveVolunteers(){
     const [generatedEmails, setGeneratedEmails] = useState([]);
 
     const handleDraftEmail = async () => {
-
+      console.log("Calling function hat checks google token");
       if (!(await checkGoogleToken(session?.user?.id))) {
+        console.log("no google token found");
         return;
       }
       
