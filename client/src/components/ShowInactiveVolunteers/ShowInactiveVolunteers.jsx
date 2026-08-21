@@ -127,7 +127,7 @@ function ShowInactiveVolunteers(){
               type="button"
               className="show-inactive-submit-btn"
             >
-                Sign in to gamail
+                Sign in to Gmail
             </button> 
           )
           
