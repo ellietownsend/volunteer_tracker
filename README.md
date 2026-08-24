@@ -31,6 +31,10 @@ Key features
 MLH
 - Please watch this demo of the feature presented in my code sample: [MLH-inactiveVolunteerFeatureDemo.mp4.zip](https://github.com/user-attachments/files/30998503/MLH-inactiveVolunteerFeatureDemo.mp4.zip)
 
+- Experience it yourself with this link! https://volunteer-dashboard-client.onrender.com/sign-in
+- I have created a gmail account you may use to sign in: mlh.fellowship.test.email@gmail.com
+- The password for this email address has been sent to fellowship@mlh.io
+
 - The files are:
   1. /volunteer_tracker/client/src/components/ShowInactiveVolunteers/ShowInactiveVolunteers.jsx
   2. /volunteer_tracker/client/src/services/showInactiveVolunteers.js
