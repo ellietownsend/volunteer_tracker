@@ -1,41 +1,10 @@
 import { getInactiveVolunteers } from "../../services/showInactiveVolunteers"
 import { useEffect, useState } from "react";
 import "../../styles/ShowInactiveVolunteers.css";
-import { checkGoogleToken, generateEmailToInactiveVolunteers, draftUsingEmailAPI } from "../../services/showInactiveVolunteers";
+import { googleTokenExist, generateEmailToInactiveVolunteers, draftUsingEmailAPI, redirectToGoogleAuth } from "../../services/showInactiveVolunteers";
 import { FaCircleInfo } from 'react-icons/fa6';
 import { useAuth } from "../../context/AuthContext";
-
-
-function DisplayInactiveVolunteers({ volunteers }){
-    console.log(volunteers);
-        return  ( 
-            <div className="inactive-volunteers-page">
-                <div className="inactive-volunteers-card">
-
-                    <div className="inactive-icon">
-                        🤝
-                    </div>
-
-                    <h2>Emails drafted to:</h2>
-
-                   <ul className="inactive-volunteers-list">
-                        {volunteers.map(volunteer => (
-                            <li key={volunteer.email}>
-                                {volunteer.email}
-                            </li>
-                        ))}
-                    </ul>
-
-                     <div className="inactive-info">
-                            <span>
-                            Look in your email drafts to offically send email. 
-                            </span>
-                     </div>
-
-                </div>
-            </div>
-            );
-    }
+import DisplayInactiveVolunteers from "./DisplayInActiveVolunteers";
 
 function ShowInactiveVolunteers(){
     const {session} = useAuth();
@@ -44,21 +13,35 @@ function ShowInactiveVolunteers(){
     const [generatedEmails, setGeneratedEmails] = useState([]);
     const [signedIn, setSignedIn] = useState(false);
 
-    const handleDraftEmail = async () => {
-      if (!(await checkGoogleToken(session?.user?.id))) {
+    const userIsLoggedIn = async () => {
+      const authenticated = await googleTokenExist(
+        session?.user?.id
+      );
+      setSignedIn(authenticated);
+    };
+
+    useEffect(() => {
+      if (!session?.user?.id) 
+        return;
+
+      userIsLoggedIn();
+    }, [session?.user?.id]);
+
+
+    const handleEmailSignIn = async () => {
+      if (signedIn) {
         return;
       }
-      setSignedIn(true);
+      redirectToGoogleAuth(session?.user?.id);
+    }
+
+    const handleDraftEmail = async () => {
       try {
         const generatedEmails =
           await generateEmailToInactiveVolunteers(inactiveVolunteers[0]);
 
-        console.log("Emails generated:", generatedEmails);
-
         const draftedEmails =
           await draftUsingEmailAPI(session?.user?.id, generatedEmails);
-
-        console.log("Emails drafted:", draftedEmails);
 
         setGeneratedEmails(draftedEmails);
         setDraftEmail(true);
@@ -67,10 +50,6 @@ function ShowInactiveVolunteers(){
       }
     };
 
-
-    useEffect(() => {
-      console.log("generatedEmails changed:", generatedEmails);
-    }, [generatedEmails]);
 
 
      useEffect(() => {
@@ -105,7 +84,8 @@ function ShowInactiveVolunteers(){
                 Reach out to encourage them to get involved again.
             </span>
           </div>
-          inactiveVolunteers.length === 0 
+
+          {inactiveVolunteers.length === 0 
           ?
             <div className="inactive-empty-state">
                     <p>All volunteers are currently active.</p>
@@ -120,13 +100,13 @@ function ShowInactiveVolunteers(){
             </button> 
             :
              <button
-              onClick={handleDraftEmail}
+              onClick={handleEmailSignIn}
               type="button"
               className="show-inactive-submit-btn"
             >
                 Sign in to Gmail
             </button> 
-          )
+          )}
           
         </div>
       </div>

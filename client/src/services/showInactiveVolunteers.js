@@ -42,19 +42,21 @@ export async function getInactiveVolunteers(){
     }
 
 
-export async function checkGoogleToken(uuid){
-    const response = await fetch(`/api/auth/google/status?uuid=${uuid}`, {
+export async function googleTokenExist(uuid) {
+    const response = await fetch(
+        `/api/auth/google/status?uuid=${uuid}`,
+        {
         credentials: "include",
-    });
-    console.log(response);
+        }
+    );
     const data = await response.json();
-    console.log("Data from checkGoogleToken:", data);
-    if(!data.connected){
-        console.log("Redirecting to Google OAuth...");
-        window.location.href = `/api/auth/google?uuid=${uuid}`;
-    }else{
-        return true;
-    }
+    return data.connected;
+}
+
+
+
+export async function redirectToGoogleAuth(uuid){
+    window.location.href = `/api/auth/google?uuid=${uuid}`;
 }
 
 
