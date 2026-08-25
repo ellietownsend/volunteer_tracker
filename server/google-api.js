@@ -63,7 +63,7 @@ async function refreshTokenExists(uuid) {
     if (!data?.refresh_token) {
       return {
         found: false,
-        error: "No refresh token found",
+        error: null,
       };
     }
 
@@ -182,18 +182,10 @@ router.get("/auth/google/status", async (req, res) => {
       error: "Missing uuid",
     });
   }
-
   const {found, error} = await refreshTokenExists(uuid);
-
   if (error) {
-    console.error("Failed to check Google connection:", error);
-
-  return res.status(500).json({
-      connected: false,
-      error: "Failed to check Google connection",
-    });
+    console.error("Failed to check login status:", error);
   }
-
   res.json({
     connected: found,
   });
