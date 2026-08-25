@@ -42,22 +42,22 @@ export async function getInactiveVolunteers(){
     }
 
 
-export async function checkGoogleToken(uuid){
-    console.log("Entering checkGoogleToken");
-    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auth/google/status?uuid=${uuid}`, {
-    credentials: "include",
-    });
+export async function googleTokenExist(uuid) {
+
+    const response = await fetch(
+        `${import.meta.env.VITE_SERVER_URL}/api/auth/google/status?uuid=${uuid}`,
+        {
+        credentials: "include",
+        }
+    );
     const data = await response.json();
-    console.log("Response from checkgoogletoke", response);
-    if(!data.connected){
-        console.log("Redirecting to Google OAuth...");
-        console.log(`${import.meta.env.VITE_SERVER_URL}/api/auth/google?uuid=${uuid}`);
-        window.location.href = `${import.meta.env.VITE_SERVER_URL}/api/auth/google?uuid=${uuid}`;
-    }else{
-        console.log("Google token found");
-        return true;
-    }
+    return data.connected;
 }
+
+export async function redirectToGoogleAuth(uuid){
+    window.location.href = `${import.meta.env.VITE_SERVER_URL}/api/auth/google?uuid=${uuid}`;
+}
+
 
 
  export async function generateEmailToInactiveVolunteers(inactiveVolunteers){

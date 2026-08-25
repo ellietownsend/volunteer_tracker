@@ -64,7 +64,7 @@ async function refreshTokenExists(uuid) {
     if (!data?.refresh_token) {
       return {
         found: false,
-        error: "No refresh token found",
+        error: null,
       };
     }
 
