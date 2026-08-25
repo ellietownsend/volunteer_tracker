@@ -98,7 +98,7 @@ function ShowInactiveVolunteers(){
             </button> 
             :
              <button
-              onClick={handleDraftEmail}
+              onClick={handleEmailSignIn}
               type="button"
               className="show-inactive-submit-btn"
             >
