@@ -34,6 +34,7 @@ MLH
 - Experience it yourself with this link! https://volunteer-dashboard-client.onrender.com/sign-in
 - I have created a gmail account you may use to sign in: mlh.fellowship.test.email@gmail.com
 - The password for this email address has been sent to fellowship@mlh.io
+- Please make sure you are not in an incognito tab
 
 - The files are:
   1. /volunteer_tracker/client/src/components/ShowInactiveVolunteers/ShowInactiveVolunteers.jsx
