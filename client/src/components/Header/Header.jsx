@@ -1,28 +1,18 @@
 import { useAuth } from "../../context/AuthContext";
-<<<<<<< HEAD
-import { useActionState, useState, useEffect, useMemo } from "react"; 
+import { nameOfOrganization } from "../../../../shared/utils/lib";
 
-function Header(){
-    return (
-        <p>header from header file</p>
-    )
-}
-
-
-export default Header;
-=======
 import "./Header.css";
 
 
 function Header() {
+    const {session} = useAuth();
   return (
     <header className="header">
-      {/* Logged-in user */}
       <div className="brand">
-        <div className="site-name">Girls Who Math</div>
+        <div className="site-name">{nameOfOrganization}</div>
 
         <div className="logged-in-user">
-          Logged in as: <strong>user</strong>
+          Logged in with: <strong>{session?.user?.email || "User"}</strong>
         </div>
       </div>
 
@@ -39,4 +29,3 @@ function Header() {
 }
 
 export default Header;
->>>>>>> 710bdd8 (feat: add Header component and integrate it into Dashboard)
