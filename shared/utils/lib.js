@@ -1,5 +1,7 @@
 export const nameOfOrganization = "Girls Who Math";
 
+export const logo = "https://scontent-lax3-1.cdninstagram.com/v/t51.2885-19/90315510_632445340655601_2849640664080056320_n.jpg?stp=dst-jpg_s150x150_tt6&_nc_cat=109&ccb=7-5&_nc_sid=f7ccc5&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy41MTIuQzMifQ%3D%3D&_nc_ohc=j6eIp54v0wYQ7kNvwHIUAxW&_nc_oc=AdqrKV6VRHU_1gBNPu9ttbNTgOMoPBKoLp8NvD3O3Sgylmb2-NwqPFt4fRHQqrerKgU&_nc_zt=24&_nc_ht=scontent-lax3-1.cdninstagram.com&_nc_ss=7b689&oh=00_AQK41_nMqNZrvuOnaN3LTt83qN1A5XQHwdfKYN27o0oxUA&oe=6AADFB9E";
+
 export const classes = [
             "Math",
             "Computer Science",

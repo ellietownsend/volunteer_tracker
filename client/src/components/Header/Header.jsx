@@ -1,20 +1,23 @@
 import { useAuth } from "../../context/AuthContext";
-import { nameOfOrganization } from "../../../../shared/utils/lib";
+import { nameOfOrganization, logo } from "../../../../shared/utils/lib";
 
 import "./Header.css";
 
 
 function Header() {
     const {session} = useAuth();
-  return (
+return (
     <header className="header">
-      <div className="brand">
-        <div className="site-name">{nameOfOrganization}</div>
 
-        <div className="logged-in-user">
-          Logged in with: <strong>{session?.user?.email || "User"}</strong>
+        {logo && <img src={logo} alt="Organization Logo" className="logo" />}
+
+        <div className="brand">
+            <div className="site-name">{nameOfOrganization}</div>
+
+            <div className="logged-in-user">
+            Logged in with: <strong>{session?.user?.email || "User"}</strong>
+            </div>
         </div>
-      </div>
 
       {/* Navigation tabs */}
       <nav className="nav-tabs">
