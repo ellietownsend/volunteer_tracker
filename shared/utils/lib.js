@@ -1,3 +1,5 @@
+export const nameOfOrganization = "Girls Who Math";
+
 export const classes = [
             "Math",
             "Computer Science",

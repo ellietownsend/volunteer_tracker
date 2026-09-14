@@ -18,13 +18,12 @@ function Header() {
   return (
     <header className="header">
       {/* Logged-in user */}
-      <div className="logged-in-user">
-        Logged in as: <strong>{user?.name || "User"}</strong>
-      </div>
+      <div className="brand">
+        <div className="site-name">Girls Who Math</div>
 
-      {/* Website name */}
-      <div className="site-name">
-        Girls Who Math
+        <div className="logged-in-user">
+          Logged in as: <strong>user</strong>
+        </div>
       </div>
 
       {/* Navigation tabs */}
