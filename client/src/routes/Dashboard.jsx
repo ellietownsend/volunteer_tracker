@@ -5,14 +5,13 @@ import "../styles/Dashboard.css";
 import StudentFeedBackForm from "../components/StudentFeedbackForm/StudentFeedbackForm.jsx";
 import VolunteerHours from "../components/VolunteerHours/VolunteerHours.jsx";
 import Signout from "../components/Signout/Signout.jsx";
+import Header from "../components/Header/Header.jsx";
 
 function Dashboard(){
     return (
         <>
-            <header>
-                header
-            </header>
-
+            <Header />
+            
             <div className="page">
                 <main>
                     <VolunteerList />
