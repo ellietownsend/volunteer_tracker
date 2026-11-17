@@ -1,26 +1,10 @@
 import { useAuth } from "../../context/AuthContext";
-<<<<<<< HEAD
-=======
 import { nameOfOrganization } from "../../../../shared/utils/lib";
-
->>>>>>> Header
 import "./Header.css";
 
 
 function Header() {
-<<<<<<< HEAD
-  return (
-    <header className="header">
-      {/* Logged-in user */}
-      <div className="logged-in-user">
-        Logged in as: <strong>{user?.name || "User"}</strong>
-      </div>
-
-      {/* Website name */}
-      <div className="site-name">
-        Girls Who Math
-=======
-    const {session} = useAuth();
+  const {session} = useAuth();
   return (
     <header className="header">
       <div className="brand">
@@ -29,7 +13,6 @@ function Header() {
         <div className="logged-in-user">
           Logged in with: <strong>{session?.user?.email || "User"}</strong>
         </div>
->>>>>>> Header
       </div>
 
       {/* Navigation tabs */}
