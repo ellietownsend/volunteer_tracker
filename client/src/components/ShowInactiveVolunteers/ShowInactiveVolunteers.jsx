@@ -27,6 +27,13 @@ function ShowInactiveVolunteers(){
       login: { hasError: false, message: "" }
     });
 
+    const checkErrorMessage = (error) => {
+     if (error?.message) return error.message;
+     if (typeof error === "string" && error.trim()) return error;
+     return "An unexpected error occurred.";
+   }
+
+
 
     const userIsLoggedIn = async () => {
       const authenticated = await googleTokenExist(
