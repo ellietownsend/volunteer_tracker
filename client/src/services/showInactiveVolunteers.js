@@ -3,32 +3,27 @@ import supabase from '../../supabase-client.js';
 export async function getInactiveVolunteers(){
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    try{
-        const {data, error } = await supabase
-        .from('hours')
-        .select(`
-            email, 
-            first_name, 
-            last_name, 
-            hours, 
-            last_volunteered,
-            volunteer (
-                subject,
-                role
-            )`
-        )
-        .lt('last_volunteered', thirtyDaysAgo.toISOString());
 
-        if (error){
-            console.error("Supabase Error: ", error.message);
-            return [];
-        }
-        
-        return formatData(data);
+    const {data, error } = await supabase
+    .from('hours')
+    .select(`
+        email, 
+        first_name, 
+        last_name, 
+        hours, 
+        last_volunteered,
+        volunteer (
+            subject,
+            role
+        )`
+    )
+    .lt('last_volunteered', thirtyDaysAgo.toISOString());
 
-    }catch(error){
-        console.error(error?.message);
+    if (error){
+        console.error("Supabase Error: ", error.message);
     }
+    
+    return formatData(data);
 }
 
  function formatData(data){
@@ -62,10 +57,8 @@ export async function redirectToGoogleAuth(uuid){
 
  export async function generateEmailToInactiveVolunteers(inactiveVolunteers){
     console.log("getting to generateEmailToInactiveVolunteers in js");
-        try {
-                    const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
-
-                    const response = await fetch(`${API_URL}/api/generateEmails`, {
+            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+            const response = await fetch(`${API_URL}/api/generateEmails`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -78,23 +71,15 @@ export async function redirectToGoogleAuth(uuid){
           }
 
           const formattedResponse = await response.json();
-
           return formattedResponse.data.emails;
-
-        } catch (error) {
-          console.error("API error:", error);
-          throw error;
-        }
 }
 
 export async function draftUsingEmailAPI(uuid, generatedEmails){
-    try{
-                const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
-
-                const response = await fetch(`${API_URL}/api/draftEmails`, {
+        const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+        const response = await fetch(`${API_URL}/api/draftEmails`, {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify({uuid, generatedEmails}),
         })
@@ -107,10 +92,7 @@ export async function draftUsingEmailAPI(uuid, generatedEmails){
 
         return draftedEmails;
 
-    }catch(error){
-        console.error("API error:", error);
-        throw error;
-    }
+    
 }
 
 
