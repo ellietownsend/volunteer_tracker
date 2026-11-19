@@ -13,6 +13,21 @@ function ShowInactiveVolunteers(){
     const [generatedEmails, setGeneratedEmails] = useState([]);
     const [signedIn, setSignedIn] = useState(false);
 
+    type Error = {
+      fetch: {hasError: boolean, message: string},
+      auth: { hasError: boolean, message: string },
+      email:{ hasError: boolean, message: string },
+      login: {hasError: boolean, message: string}
+    }
+
+     const [errors, setErrors] = useState({
+      fetch: { hasError: false, message: "" },
+      auth: { hasError: false, message: "" },
+      email:{ hasError: false, message: "" },
+      login: { hasError: false, message: "" }
+    });
+
+
     const userIsLoggedIn = async () => {
       const authenticated = await googleTokenExist(
         session?.user?.id
