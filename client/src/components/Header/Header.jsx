@@ -9,7 +9,7 @@ function Header() {
     <header className="header">
       {/* Logged-in user */}
       <div className="logged-in-user">
-        Logged in as: <strong>{user?.name || "User"}</strong>
+        Logged in with: <strong>{session?.user?.email || "User"}</strong>
       </div>
 
       {/* Website name */}
