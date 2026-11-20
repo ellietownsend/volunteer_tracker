@@ -98,7 +98,7 @@ const handleDraftEmail = async () => {
   }
 };
 
-    useEffect(() => {
+useEffect(() => {
       if (!session?.user?.id) 
         return;
 
@@ -152,6 +152,25 @@ if (loading.makeDrafts) {
 if (generatedEmails.length > 0) {
   return <DisplayInactiveVolunteers volunteers={generatedEmails} />;
 }
+     useEffect(() => {
+        const fetchInactiveVolunteers = async () => {
+          try{
+            setLoading(prev => ({
+              ...prev,
+              fetchVolunteers: true
+            }));
+            const fetchedInactiveVolunteers = await getInactiveVolunteers();
+            setInactiveVolunteers(fetchedInactiveVolunteers);
+          }
+          catch(error){
+            setErrors(prev =>({
+              ...prev,
+              fetchVolunteers: {hasError: true, message: `Error loading inactive volunteers: ${checkErrorMessage(error)}`}
+            }))
+          }
+        }
+        fetchInactiveVolunteers();
+    },[])
 
   return (
   <div className="inactive-volunteers-page">
