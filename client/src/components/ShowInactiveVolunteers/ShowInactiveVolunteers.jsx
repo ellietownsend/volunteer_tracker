@@ -225,5 +225,5 @@ if (generatedEmails.length > 0) {
     </div>
   </div>
 );
-  }
+}
 export default ShowInactiveVolunteers;
