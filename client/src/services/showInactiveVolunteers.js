@@ -20,7 +20,7 @@ export async function getInactiveVolunteers(){
     .lt('last_volunteered', thirtyDaysAgo.toISOString());
 
     if (error){
-        console.error("Supabase Error: ", error.message);
+         throw new Error(`Failed to get inactive volunteers: ${error.message}`);
     }
     
     return formatData(data);
