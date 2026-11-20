@@ -9,22 +9,21 @@ import DisplayInactiveVolunteers from "./DisplayInActiveVolunteers";
 function ShowInactiveVolunteers(){
     const {session} = useAuth();
     const [inactiveVolunteers, setInactiveVolunteers] = useState([]);
-    const [draftEmail, setDraftEmail] = useState(false);
     const [generatedEmails, setGeneratedEmails] = useState([]);
     const [signedIn, setSignedIn] = useState(false);
 
     type Error = {
-      fetch: {hasError: boolean, message: string},
-      auth: { hasError: boolean, message: string },
-      email:{ hasError: boolean, message: string },
-      login: {hasError: boolean, message: string}
+      fetchVolunteers: {hasError: boolean, message: string},
+      searchToken: { hasError: boolean, message: string },
+      makeEmails:{ hasError: boolean, message: string },
+      makeDrafts: {hasError: boolean, message: string}
     }
 
-     const [errors, setErrors] = useState({
-      fetch: { hasError: false, message: "" },
-      auth: { hasError: false, message: "" },
-      email:{ hasError: false, message: "" },
-      login: { hasError: false, message: "" }
+     const [errors, setErrors] = useState<Error>({
+      fetchVolunteers: { hasError: false, message: "" },
+      searchToken: { hasError: false, message: "" },
+      makeEmails:{ hasError: false, message: "" },
+      makeDrafts: { hasError: false, message: "" }
     });
 
     const checkErrorMessage = (error) => {
@@ -34,12 +33,17 @@ function ShowInactiveVolunteers(){
    }
 
 
-
     const userIsLoggedIn = async () => {
-      const authenticated = await googleTokenExist(
-        session?.user?.id
-      );
-      setSignedIn(authenticated);
+      try{
+        const authenticated = await googleTokenExist(session?.user?.id);
+        setSignedIn(authenticated);
+      }
+      catch(error){
+        setErrors(prev => ({
+          ...prev, 
+          searchToken: {hasError: true, message: `Failed to check log in status: ${checkErrorMessage(error)}`}
+        }))
+      }
     };
 
     useEffect(() => {
@@ -61,14 +65,22 @@ function ShowInactiveVolunteers(){
       try {
         const generatedEmails =
           await generateEmailToInactiveVolunteers(inactiveVolunteers[0]);
-
-        const draftedEmails =
-          await draftUsingEmailAPI(session?.user?.id, generatedEmails);
-
+      }
+      catch(error){
+        setErrors(prev => ({
+          ...prev,
+          makeEmails: {hasError: true, message:  `Failed to make emails: ${checkErrorMessage(error)}`}
+        }))
+      }
+      try{
+        const draftedEmails = await draftUsingEmailAPI(session?.user?.id, generatedEmails);
         setGeneratedEmails(draftedEmails);
-        setDraftEmail(true);
-      } catch (error) {
-        console.error("Email process failed:", error);
+      }
+      catch(error){
+        setErrors(prev => ({
+         ...prev,
+         makeDrafts:{hasError: true, message: `Failed to make drafts: ${checkErrorMessage(error)}`}
+       }))
       }
     };
 
@@ -76,8 +88,16 @@ function ShowInactiveVolunteers(){
 
      useEffect(() => {
         const fetchInactiveVolunteers = async () => {
+          try{
             const fetchedInactiveVolunteers = await getInactiveVolunteers();
             setInactiveVolunteers(fetchedInactiveVolunteers);
+          }
+          catch(error){
+            setErrors(prev =>({
+              ...prev,
+              fetchVolunteers: {hasError: true, message: `Error loading inactive volunteers: ${checkErrorMessage(error)}`}
+            }))
+          }
         }
         fetchInactiveVolunteers();
     },[])
