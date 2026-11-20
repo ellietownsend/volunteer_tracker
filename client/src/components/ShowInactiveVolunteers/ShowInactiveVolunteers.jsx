@@ -12,18 +12,19 @@ function ShowInactiveVolunteers(){
     const [generatedEmails, setGeneratedEmails] = useState([]);
     const [signedIn, setSignedIn] = useState(false);
 
-    type Error = {
-      fetchVolunteers: {hasError: boolean, message: string},
-      searchToken: { hasError: boolean, message: string },
-      makeEmails:{ hasError: boolean, message: string },
-      makeDrafts: {hasError: boolean, message: string}
-    }
-
-     const [errors, setErrors] = useState<Error>({
+   
+     const [errors, setErrors] = useState({
       fetchVolunteers: { hasError: false, message: "" },
       searchToken: { hasError: false, message: "" },
       makeEmails:{ hasError: false, message: "" },
       makeDrafts: { hasError: false, message: "" }
+    });
+
+    const [loading, setLoading] = useState({
+      fetchVolunteers: true,
+      searchToken: true,
+      makeEmails: false,
+      makeDrafts: false
     });
 
     const checkErrorMessage = (error) => {
@@ -31,6 +32,7 @@ function ShowInactiveVolunteers(){
      if (typeof error === "string" && error.trim()) return error;
      return "An unexpected error occurred.";
    }
+
 
 
     const userIsLoggedIn = async () => {
@@ -89,6 +91,10 @@ function ShowInactiveVolunteers(){
      useEffect(() => {
         const fetchInactiveVolunteers = async () => {
           try{
+            setLoading(prev => ({
+              ...prev,
+              fetchVolunteers: true
+            }));
             const fetchedInactiveVolunteers = await getInactiveVolunteers();
             setInactiveVolunteers(fetchedInactiveVolunteers);
           }
