@@ -12,7 +12,12 @@ function ShowInactiveVolunteers(){
     const [generatedEmails, setGeneratedEmails] = useState([]);
     const [signedIn, setSignedIn] = useState(false);
 
+<<<<<<< HEAD
    
+=======
+
+
+>>>>>>> ae45e6c (remove unnecessary type)
      const [errors, setErrors] = useState({
       fetchVolunteers: { hasError: false, message: "" },
       searchToken: { hasError: false, message: "" },
