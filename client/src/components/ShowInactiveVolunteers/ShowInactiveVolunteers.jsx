@@ -11,6 +11,7 @@ function ShowInactiveVolunteers(){
     const [inactiveVolunteers, setInactiveVolunteers] = useState([]);
     const [generatedEmails, setGeneratedEmails] = useState([]);
     const [signedIn, setSignedIn] = useState(false);
+    const [completed, setCompleted] = useState(false);
 
 <<<<<<< HEAD
 
@@ -119,8 +120,21 @@ const handleDraftEmail = async () => {
 
   if (draftResult.success) {
     setGeneratedEmails(draftResult.data);
+    setCompleted(true)
   }
 };
+
+const getButtonText = () => {
+  if(completed) return "Emails in draft!";
+  if (loading.makeEmails) return "Making emails...";
+  if (loading.fetchVolunteers) return "Loading inactive volunteers";
+  if (errors.fetchVolunteers.hasError) return `${errors.fetchVolunteers.message}`;
+  if (loading.makeDrafts) {return "Drafting Emails..." };
+  if (generatedEmails.length > 0) {return <DisplayInactiveVolunteers volunteers={generatedEmails} /> };
+
+  return "Reach Out";
+};
+
 
 useEffect(() => {
       if (!session?.user?.id) 
@@ -136,7 +150,6 @@ useEffect(() => {
       }
       redirectToGoogleAuth(session?.user?.id);
     }
-
 
 
   useEffect(() => {
@@ -156,26 +169,6 @@ useEffect(() => {
 
     fetchVolunteers();
   }, [session?.user?.id]);
-
-      // 1. Loading state
-if (loading.fetchVolunteers) {
-  return <p>Loading inactive volunteers...</p>;
-}
-
-// 2. Error state
-if (errors.fetchVolunteers.hasError) {
-  return <p>{errors.fetchVolunteers.message}</p>;
-}
-
-// 3. Draft generation loading state
-if (loading.makeDrafts) {
-  return <p>Generating email drafts...</p>;
-}
-
-// 4. Display generated drafts
-if (generatedEmails.length > 0) {
-  return <DisplayInactiveVolunteers volunteers={generatedEmails} />;
-}
 
 
   return (
@@ -206,9 +199,9 @@ if (generatedEmails.length > 0) {
           onClick={handleDraftEmail}
           type="button"
           className="show-inactive-submit-btn"
-          disabled={loading.makeEmails || loading.makeDrafts}
+          disabled={loading.makeEmails || loading.makeDrafts || completed}
         >
-          {loading.makeEmails ? "Generating emails..." : "Reach Out"}
+          {getButtonText()}
         </button>
       ) : (
         <button
