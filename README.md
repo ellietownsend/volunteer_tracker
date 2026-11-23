@@ -37,7 +37,7 @@ MLH
 - Please make sure you are not in an incognito tab
 
 - The files are:
-  1. /volunteer_tracker/client/src/components/ShowInactiveVolunteers/ShowInactiveVolunteers.jsx
+  1. /volunteer_tracker/client/src/components/ShowInactiveVolunteers/ShowInactiveVolunteers.tsx
   2. /volunteer_tracker/client/src/services/showInactiveVolunteers.js
   3. /volunteer_tracker/server/google-api.js
   4. volunteer_tracker/server/groq-api.js
