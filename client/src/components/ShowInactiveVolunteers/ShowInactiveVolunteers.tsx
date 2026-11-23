@@ -78,25 +78,6 @@ const userIsLoggedIn = async () => {
   }
 };
 
-useEffect(() => {
-  const fetchInactiveVolunteers = async () => {
-    try{
-      setLoading(prev => ({
-        ...prev,
-        fetchVolunteers: true
-      }));
-      const fetchedInactiveVolunteers = await getInactiveVolunteers();
-      setInactiveVolunteers(fetchedInactiveVolunteers);
-    }
-    catch(error){
-      setErrors(prev =>({
-        ...prev,
-        fetchVolunteers: {hasError: true, message: `Error loading inactive volunteers: ${checkErrorMessage(error)}`}
-      }))
-    }
-  }
-  fetchInactiveVolunteers();
-    },[])
 
 const handleDraftEmail = async () => {
   const emailResult = await runAsync(
@@ -121,12 +102,14 @@ const handleDraftEmail = async () => {
 };
 
 const getButtonText = () => {
+  if (completed) {
+    return <DisplayInactiveVolunteers volunteers={generatedEmails} />;
+  }
   if(completed) return "Emails in draft!";
   if (loading.makeEmails) return "Making emails...";
   if (loading.fetchVolunteers) return "Loading inactive volunteers";
   if (errors.fetchVolunteers.hasError) return `${errors.fetchVolunteers.message}`;
   if (loading.makeDrafts) {return "Drafting Emails..." };
-  if (generatedEmails.length > 0) {return <DisplayInactiveVolunteers volunteers={generatedEmails} /> };
 
   return "Reach Out";
 };

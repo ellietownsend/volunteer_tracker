@@ -4,7 +4,7 @@ import VolunteerList from "./src/components/VolunteerList";
 import VolunteerHoursChart from "./src/components/VolunteerHoursChart/VolunteerHoursChart.jsx";
 import ImageUploader from "./src/components/ImageUploader/ImageUploader.jsx";
 import ShoutoutForm from "./src/components/ShoutoutForm/ShoutoutForm.jsx";
-import ShowInactiveVolunteers from "./src/components/ShowInactiveVolunteers/ShowInactiveVolunteers.jsx";
+import ShowInactiveVolunteers from "./src/components/ShowInactiveVolunteers/ShowInactiveVolunteers.tsx";
 import SignInForm from "./src/components/SignInForm/SignInForm.jsx";
 
 const routes = [
