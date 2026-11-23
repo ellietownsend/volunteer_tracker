@@ -102,15 +102,11 @@ const handleDraftEmail = async () => {
 };
 
 const getButtonText = () => {
-  if (completed) {
-    return <DisplayInactiveVolunteers volunteers={generatedEmails} />;
-  }
-  if(completed) return "Emails in draft!";
+  if (completed) return "Emails in draft!";
   if (loading.makeEmails) return "Making emails...";
+  if (loading.makeDrafts) return "Drafting Emails...";
   if (loading.fetchVolunteers) return "Loading inactive volunteers";
-  if (errors.fetchVolunteers.hasError) return `${errors.fetchVolunteers.message}`;
-  if (loading.makeDrafts) {return "Drafting Emails..." };
-
+  if (errors.fetchVolunteers.hasError) return errors.fetchVolunteers.message;
   return "Reach Out";
 };
 
@@ -169,19 +165,26 @@ useEffect(() => {
         <span>Reach out to encourage them to get involved again.</span>
       </div>
 
-      {inactiveVolunteers.length === 0 ? (
+      {errors.fetchVolunteers.hasError ? (
+        <p>{errors.fetchVolunteers.message}</p>
+      ) : inactiveVolunteers.length === 0 ? (
         <div className="inactive-empty-state">
           <p>All volunteers are currently active.</p>
         </div>
       ) : signedIn ? (
-        <button
-          onClick={handleDraftEmail}
-          type="button"
-          className="show-inactive-submit-btn"
-          disabled={loading.makeEmails || loading.makeDrafts || completed}
-        >
-          {getButtonText()}
-        </button>
+        <>
+          <button
+            onClick={handleDraftEmail}
+            type="button"
+            className="show-inactive-submit-btn"
+            disabled={loading.makeEmails || loading.makeDrafts || completed}
+          >
+            {getButtonText()}
+          </button>
+          {completed && (
+            <DisplayInactiveVolunteers volunteers={generatedEmails} />
+          )}
+        </>
       ) : (
         <button
           onClick={handleEmailSignIn}

@@ -1,4 +1,6 @@
-import { render, screen, cleanup } from "@testing-library/react";
+// @vitest-environment jsdom
+
+import { render, screen, cleanup, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/vitest";
 import { test, expect, vi, afterEach } from "vitest";
@@ -15,6 +17,7 @@ import { useAuth } from "../../context/AuthContext";
 
 afterEach(() => {
   cleanup();
+  vi.clearAllMocks();
 });
 
 vi.mock("../../../supabase-client", () => ({
@@ -28,7 +31,7 @@ vi.mock("../../context/AuthContext", () => ({
 }));
 
 vi.mock("./DisplayInActiveVolunteers", () => ({
-  default: ({ volunteers }) => (
+  default: ({ volunteers }: { volunteers: Array<{ email: string }> }) => (
     <div data-testid="generated-emails">
       {volunteers.map((volunteer, index) => (
         <p key={index}>{volunteer.email}</p>
@@ -59,7 +62,7 @@ const mockDrafts = [
 
 // Set up default mocks for each test
 function setupMocks() {
-  useAuth.mockReturnValue({
+  vi.mocked(useAuth).mockReturnValue({
     session: {
       user: {
         id: "user-123",
@@ -67,12 +70,10 @@ function setupMocks() {
     },
   });
 
-  getInactiveVolunteers.mockResolvedValue(mockVolunteers);
-  googleTokenExist.mockResolvedValue(true);
-  generateEmailToInactiveVolunteers.mockResolvedValue(
-    mockGeneratedEmail
-  );
-  draftUsingEmailAPI.mockResolvedValue(mockDrafts);
+  vi.mocked(getInactiveVolunteers).mockResolvedValue(mockVolunteers);
+  vi.mocked(googleTokenExist).mockResolvedValue(true);
+  vi.mocked(generateEmailToInactiveVolunteers).mockResolvedValue(mockGeneratedEmail);
+  vi.mocked(draftUsingEmailAPI).mockResolvedValue(mockDrafts);
 }
 
 /* Test inactive volunteers are fetched */
@@ -86,12 +87,11 @@ test("loads and displays inactive volunteers", async () => {
   expect(getInactiveVolunteers).toHaveBeenCalled();
 });
 
-```
 /* Test empty state when there are no inactive volunteers */
 test("displays empty state when all volunteers are active", async () => {
   setupMocks();
 
-  getInactiveVolunteers.mockResolvedValue([]);
+  vi.mocked(getInactiveVolunteers).mockResolvedValue([]);
 
   render(<ShowInactiveVolunteers />);
 
@@ -104,7 +104,7 @@ test("displays empty state when all volunteers are active", async () => {
 test("displays an error when fetching inactive volunteers fails", async () => {
   setupMocks();
 
-  getInactiveVolunteers.mockRejectedValue(
+  vi.mocked(getInactiveVolunteers).mockRejectedValue(
     new Error("Server error")
   );
 
@@ -112,7 +112,7 @@ test("displays an error when fetching inactive volunteers fails", async () => {
 
   expect(
     await screen.findByText(
-      "Error loading inactive volunteers: Server error"
+      "Failed to load inactive volunteers: Server error"
     )
   ).toBeInTheDocument();
 });
@@ -143,7 +143,7 @@ test("displays Reach Out button when user is signed in", async () => {
 test("displays Sign in to Gmail when user is not signed in", async () => {
   setupMocks();
 
-  googleTokenExist.mockResolvedValue(false);
+  vi.mocked(googleTokenExist).mockResolvedValue(false);
 
   render(<ShowInactiveVolunteers />);
 
@@ -175,7 +175,7 @@ test("handles an error when checking Google token fails", async () => {
 test("redirects user to Google authentication when sign in is clicked", async () => {
   setupMocks();
 
-  googleTokenExist.mockResolvedValue(false);
+  vi.mocked(googleTokenExist).mockResolvedValue(false);
 
   render(<ShowInactiveVolunteers />);
 
@@ -215,7 +215,7 @@ test("generates an email for the first inactive volunteer", async () => {
 test("displays an error when email generation fails", async () => {
   setupMocks();
 
-  generateEmailToInactiveVolunteers.mockRejectedValue(
+  vi.mocked(generateEmailToInactiveVolunteers).mockRejectedValue(
     new Error("Email generation failed")
   );
 
@@ -287,7 +287,7 @@ test("displays generated drafts after successful completion", async () => {
 test("displays an error when creating Gmail drafts fails", async () => {
   setupMocks();
 
-  draftUsingEmailAPI.mockRejectedValue(
+  vi.mocked(draftUsingEmailAPI).mockRejectedValue(
     new Error("Draft creation failed")
   );
 
@@ -312,9 +312,9 @@ test("displays an error when creating Gmail drafts fails", async () => {
 test("disables Reach Out button while generating emails", async () => {
   setupMocks();
 
-  let resolvePromise;
+  let resolvePromise: ((value: typeof mockGeneratedEmail) => void) | undefined;
 
-  generateEmailToInactiveVolunteers.mockImplementation(
+  vi.mocked(generateEmailToInactiveVolunteers).mockImplementation(
     () =>
       new Promise((resolve) => {
         resolvePromise = resolve;
@@ -337,7 +337,7 @@ test("disables Reach Out button while generating emails", async () => {
 
   expect(loadingButton).toBeDisabled();
 
-  resolvePromise(mockGeneratedEmail);
+  resolvePromise?.(mockGeneratedEmail);
 });
 
 /* Test button is disabled after successful draft creation */
@@ -360,4 +360,3 @@ test("disables Reach Out button after emails are drafted", async () => {
 
   expect(completedButton).toBeDisabled();
 });
-```
