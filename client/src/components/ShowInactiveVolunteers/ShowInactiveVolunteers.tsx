@@ -13,16 +13,13 @@ function ShowInactiveVolunteers(){
     const [signedIn, setSignedIn] = useState(false);
     const [completed, setCompleted] = useState(false);
 
-<<<<<<< HEAD
 
-=======
     const [errors, setErrors] = useState({
       fetchVolunteers: { hasError: false, message: "" },
       searchToken: { hasError: false, message: "" },
       makeEmails:{ hasError: false, message: "" },
       makeDrafts: { hasError: false, message: "" }
     });
->>>>>>> fix/errorHandling
 
     const [loading, setLoading] = useState({
       fetchVolunteers: true,
