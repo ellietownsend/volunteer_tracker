@@ -63,7 +63,7 @@ export const AuthContextProvider =  ({ children }) => {
                 email,
                  options: {
                     emailRedirectTo: "http://localhost:5173/dashboard",
-                    shouldCreateUser: false,
+                    shouldCreateUser: true,
                 }
             });
 
